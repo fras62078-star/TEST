@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>لوحة إدارة متجر نَسْج للسجاد</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+
+  <!-- القائمة الجانبية للوحة التحكم -->
+  <aside class="admin-sidebar">
+    <div class="admin-brand">
+      <div class="brand-icon">ن</div>
+      <div class="brand-title-wrap">
+        <span class="brand-name">إدارة نَسْج</span>
+        <span class="brand-sub">CONTROL PANEL</span>
+      </div>
+    </div>
+
+    <ul class="admin-nav">
+      <li class="admin-nav-item">
+        <button class="active" data-tab="products" onclick="switchTab('products')">
+          <span>📦</span>
+          <span>إدارة وترتيب المنتجات</span>
+        </button>
+      </li>
+      <li class="admin-nav-item">
+        <button data-tab="styles" onclick="switchTab('styles')">
+          <span>🎨</span>
+          <span>ترتيب وتنسيق الأنماط</span>
+        </button>
+      </li>
+      <li class="admin-nav-item">
+        <button data-tab="settings" onclick="switchTab('settings')">
+          <span>⚙️</span>
+          <span>إعدادات المتجر العامة</span>
+        </button>
+      </li>
+    </ul>
+
+    <div class="sidebar-footer">
+      <a href="index.html" class="btn-sidebar-link" target="_blank">
+        <span>👁️</span>
+        <span>معاينة المتجر المباشر</span>
+      </a>
+    </div>
+  </aside>
+
+  <!-- المنطقة الرئيسية للوحة الإدارة -->
+  <main class="admin-main">
+    
+    <!-- الشريط العلوي -->
+    <header class="admin-topbar">
+      <div class="page-title-wrap">
+        <h1 id="pageTitle">إدارة وترتيب المنتجات</h1>
+        <p id="pageDesc">إضافة، تعديل، تغيير ترتيب الظهور وحذف المنتجات بسهولة</p>
+      </div>
+
+      <div class="topbar-actions">
+        <button class="btn-admin btn-admin-primary" id="topbarAddBtn" onclick="openAddProductModal()">
+          <span>➕</span>
+          <span>إضافة سجادة جديدة</span>
+        </button>
+        <a href="index.html" class="btn-admin btn-admin-secondary" target="_blank">
+          <span>مشاهدة المتجر ↗</span>
+        </a>
+      </div>
+    </header>
+
+    <!-- شريط الإحصائيات السريعة -->
+    <section class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon">📦</div>
+        <div class="stat-info">
+          <div class="stat-num" id="statTotalProducts">0</div>
+          <div class="stat-label">إجمالي السجاد المسجل</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">🎨</div>
+        <div class="stat-info">
+          <div class="stat-num" id="statTotalStyles">0</div>
+          <div class="stat-label">أنماط السجاد المفعلة</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">⭐</div>
+        <div class="stat-info">
+          <div class="stat-num" id="statBestProducts">0</div>
+          <div class="stat-label">منتجات الأكثر طلباً</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">🏷️</div>
+        <div class="stat-info">
+          <div class="stat-num" id="statSaleProducts">0</div>
+          <div class="stat-label">منتجات في التنزيلات</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- تبويب 1: إدارة المنتجات -->
+    <section class="tab-content active" id="tab-products">
+      <div class="content-card">
+        <div class="card-header">
+          <h3 class="card-title">قائمة المنتجات والتحكم بالتطابق والترتيب</h3>
+          <span style="font-size:0.85rem; color:var(--admin-muted);">استخدم الأسهم ▲ ▼ لنقل ترتيب ظهور المنتج في واجهة المتجر الرئيسية</span>
+        </div>
+
+        <div class="admin-filter-bar">
+          <input type="text" id="adminSearchInput" class="admin-input" placeholder="ابحث باسم السجادة أو الرمز..." style="flex:1; max-width:320px;">
+          <select id="filterStyleSelect" class="admin-select">
+            <option value="">كل الأنماط</option>
+          </select>
+        </div>
+
+        <div class="admin-table-wrap">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th style="width:50px;">#</th>
+                <th>السجادة والرمز</th>
+                <th>النمط</th>
+                <th>السعر الأساسي</th>
+                <th>الشارات والتنزيلات</th>
+                <th>ترتيب الظهور</th>
+                <th style="width:160px;">الإجراءات</th>
+              </tr>
+            </thead>
+            <tbody id="productsTbody">
+              <!-- يُملأ بواسطة JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- تبويب 2: إدارة الأنماط والتصنيفات -->
+    <section class="tab-content" id="tab-styles">
+      <div class="content-card">
+        <div class="card-header">
+          <div>
+            <h3 class="card-title">ترتيب وتنسيق أنماط السجاد الرئيسية</h3>
+            <span style="font-size:0.85rem; color:var(--admin-muted);">تحكّم في ترتيب ظهور بطاقات الأنماط بالصفحة الرئيسية والقائمة الجانبية</span>
+          </div>
+          <button class="btn-admin btn-admin-primary" onclick="openAddStyleModal()">
+            <span>➕</span>
+            <span>إضافة نمط جديد</span>
+          </button>
+        </div>
+
+        <div class="admin-table-wrap">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th style="width:50px;">#</th>
+                <th>النمط باللغتين</th>
+                <th>العنوان الوصفي (Tagline)</th>
+                <th>العدد المتوفر</th>
+                <th>ترتيب الظهور</th>
+                <th style="width:100px;">الإجراءات</th>
+              </tr>
+            </thead>
+            <tbody id="stylesTbody">
+              <!-- يُملأ بواسطة JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- تبويب 3: إعدادات المتجر العامة -->
+    <section class="tab-content" id="tab-settings">
+      <div class="content-card" style="max-width:720px;">
+        <div class="card-header">
+          <h3 class="card-title">إعدادات الشريط الإعلاني وإدارة البيانات</h3>
+        </div>
+
+        <form onsubmit="saveSettingsForm(event)">
+          <div class="form-group">
+            <label>نص الشريط الإعلاني العلوي (Top Announcement Bar):</label>
+            <input type="text" id="settingAnnouncementInput" class="admin-input" style="width:100%;" required>
+          </div>
+
+          <div style="margin-top:24px; display:flex; gap:12px;">
+            <button type="submit" class="btn-admin btn-admin-primary">حفظ الإعدادات 💾</button>
+          </div>
+        </form>
+
+        <hr style="margin:32px 0; border:none; border-top:1px solid var(--admin-border);">
+
+        <div>
+          <h4 style="color:#c83b3b; font-size:1.05rem; font-weight:800; margin-bottom:8px;">إعادة تعيين واستعادة البيانات الأصلية</h4>
+          <p style="font-size:0.88rem; color:var(--admin-muted); margin-bottom:16px;">إذا أردت إلغاء كافة التغييرات والعودة للبيانات الافتراضية الأوليّة لكتالوج نَسْج اضغط الزر أدناه.</p>
+          <button type="button" class="btn-admin btn-admin-danger" onclick="resetAllData()">استعادة البيانات الافتراضية 🔄</button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- نافذة إضافة / تعديل منتج (Modal) -->
+  <div class="modal-admin-backdrop" id="productFormModal" onclick="closeProductModal()">
+    <div class="modal-admin-box" onclick="event.stopPropagation()">
+      <h3 id="productModalTitle" style="font-size:1.3rem; font-weight:800; margin-bottom:20px; color:#24201c;">إضافة سجادة جديدة</h3>
+
+      <form onsubmit="saveProductForm(event)">
+        <div class="form-group">
+          <label>اسم السجادة:</label>
+          <input type="text" id="prodName" class="admin-input" style="width:100%;" placeholder="مثال: سجادة أصفهان كلاسيكية بيج" required>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>نمط السجادة:</label>
+            <select id="prodStyleSelect" class="admin-select" style="width:100%;">
+              <option value="bohemian">البوهيمي</option>
+              <option value="modern">المودرن</option>
+              <option value="classic">الكلاسيكي</option>
+              <option value="french">الفرنسي</option>
+              <option value="oriental">الشرقي</option>
+              <option value="luxury">الفاخر</option>
+              <option value="kids">الأطفال</option>
+              <option value="geometric">الهندسي</option>
+              <option value="minimalist">البسيط</option>
+              <option value="traditional">التراثي</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>السعر الأساسي (ر.س):</label>
+            <input type="number" id="prodMinPrice" class="admin-input" style="width:100%;" min="50" step="10" required>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>نسبة الخصم (%):</label>
+            <input type="number" id="prodDiscount" class="admin-input" style="width:100%;" min="0" max="90" value="0">
+          </div>
+
+          <div class="form-group">
+            <label>شارات التميز:</label>
+            <div class="checkbox-group">
+              <label class="checkbox-label">
+                <input type="checkbox" id="prodIsNew">
+                <span>وصل حديثاً 🆕</span>
+              </label>
+              <label class="checkbox-label">
+                <input type="checkbox" id="prodIsBest">
+                <span>الأكثر طلباً ⭐</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top:28px; display:flex; justify-content:flex-end; gap:12px;">
+          <button type="button" class="btn-admin btn-admin-secondary" onclick="closeProductModal()">إلغاء</button>
+          <button type="submit" class="btn-admin btn-admin-primary">حفظ السجادة 💾</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- نافذة تعديل نمط (Modal) -->
+  <div class="modal-admin-backdrop" id="styleFormModal" onclick="closeStyleModal()">
+    <div class="modal-admin-box" onclick="event.stopPropagation()">
+      <h3 id="styleModalTitle" style="font-size:1.3rem; font-weight:800; margin-bottom:20px; color:#24201c;">تعديل نمط السجاد</h3>
+
+      <form onsubmit="saveStyleForm(event)">
+        <div class="form-group">
+          <label>اسم النمط:</label>
+          <input type="text" id="styleNameInput" class="admin-input" style="width:100%;" required>
+        </div>
+
+        <div class="form-group">
+          <label>العنوان الوصفي الجذاب (Tagline):</label>
+          <input type="text" id="styleTaglineInput" class="admin-input" style="width:100%;" required>
+        </div>
+
+        <div class="form-group">
+          <label>وصف النمط التفصيلي:</label>
+          <textarea id="styleDescInput" class="admin-input" style="width:100%; height:80px; resize:vertical;"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label>لون الخلفية التمييزي (Hex Tint):</label>
+          <input type="color" id="styleTintInput" style="height:40px; width:80px; border:none; cursor:pointer;">
+        </div>
+
+        <div style="margin-top:28px; display:flex; justify-content:flex-end; gap:12px;">
+          <button type="button" class="btn-admin btn-admin-secondary" onclick="closeStyleModal()">إلغاء</button>
+          <button type="submit" class="btn-admin btn-admin-primary">حفظ النمط 💾</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="admin-toast" id="adminToast"></div>
+
+  <!-- ملفات JS -->
+  <script src="js/data.js"></script>
+  <script src="js/rugs.js"></script>
+  <script src="app.js"></script>
+  <script src="admin.js"></script>
+</body>
+</html>
