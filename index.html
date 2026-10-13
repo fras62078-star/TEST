@@ -1,388 +1,976 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>نَسْج | متجر السجاد المنزلي الفاخر</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>أنماط الشخصية في بيئة العمل | الشخصية الشكّاكة</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Amiri:wght@700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0b0d1f;--panel:#151936;--line:#2a3063;--txt:#eef0ff;--muted:#a9aed6;--accent:#ffd166;--red:#e63946;--green:#2ecc71}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Cairo',Tahoma,sans-serif;background:radial-gradient(circle at 50% 0,#1b1f4a,var(--bg) 60%);color:var(--txt);min-height:100vh}
+button{font-family:inherit;cursor:pointer}
+.app{max-width:1150px;margin:0 auto;padding:14px 14px 40px}
+
+/* ---------- Header ---------- */
+header{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}
+.brand{display:flex;align-items:center;gap:10px}
+.brand .logo{width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,#ffd166,#e76f51);display:grid;place-items:center;font-size:22px}
+.brand h1{font-size:1.15rem;font-weight:900;line-height:1.2}
+.brand small{color:var(--muted);font-size:.8rem}
+.stations{display:flex;flex-wrap:wrap;gap:6px}
+.st-chip{background:var(--panel);border:1px solid var(--line);color:var(--muted);padding:6px 12px;border-radius:999px;font-size:.82rem;font-weight:700;transition:.25s}
+.st-chip:hover{color:#fff;border-color:#4a52a0}
+.st-chip.active{background:linear-gradient(135deg,#ffd166,#f4a261);color:#1b1b1b;border-color:transparent;transform:translateY(-2px);box-shadow:0 6px 16px #ffd16633}
+.st-chip.done{color:#cfd3ff}
+
+/* ---------- Stage ---------- */
+.stage-wrap{container-type:inline-size;width:100%}
+#stage{position:relative;width:100%;aspect-ratio:16/9;border-radius:22px;overflow:hidden;font-size:1.7cqw;border:1px solid var(--line);box-shadow:0 20px 60px #0008;transition:filter .35s, transform .35s, opacity .35s;isolation:isolate}
+#stage.leaving{opacity:0;filter:blur(8px);transform:scale(.97)}
+#stage[data-st="0"],#stage[data-st="6"]{background:radial-gradient(circle at 70% 30%,#2e3180,#0d0f2b 70%)}
+#stage[data-st="1"]{background:radial-gradient(circle at 70% 30%,#2b3d8f,#0f1638 70%)}
+#stage[data-st="2"]{background:radial-gradient(circle at 70% 30%,#7a2860,#1d0c25 70%)}
+#stage[data-st="3"]{background:radial-gradient(circle at 70% 30%,#2a6b4f,#0b1f17 70%)}
+#stage[data-st="4"]{background:radial-gradient(circle at 70% 30%,#1b4a5a,#050f14 70%)}
+#stage[data-st="5"]{background:radial-gradient(circle at 70% 30%,#7a4f22,#1e140b 70%)}
+.floor{position:absolute;left:0;right:0;bottom:0;height:13%;background:linear-gradient(#0000,#0007);border-top:1px solid #ffffff14;z-index:0}
+.vignette{position:absolute;inset:0;background:radial-gradient(ellipse at center,#0000 55%,#0008);pointer-events:none;z-index:9}
+.bg-eye{position:absolute;width:9em;height:4.5em;border-radius:50%;border:.25em solid #fff;opacity:.05;display:grid;place-items:center;z-index:0;animation:drift 14s ease-in-out infinite}
+.bg-eye::after{content:'';width:2.2em;height:2.2em;border-radius:50%;background:#fff;animation:dartBg 4s ease-in-out infinite}
+@keyframes drift{50%{transform:translateY(-1.5em) rotate(4deg)}}
+@keyframes dartBg{0%,30%{transform:translateX(0)}40%,60%{transform:translateX(-2.4em)}70%,90%{transform:translateX(2.4em)}}
+#propsBack{position:absolute;inset:0;z-index:1}
+#props{position:absolute;inset:0;z-index:3}
+#charWrap{position:absolute;right:2.5%;bottom:0;height:90%;aspect-ratio:220/320;z-index:2}
+#charWrap.enter{animation:charIn .8s cubic-bezier(.2,.9,.3,1.2) both}
+@keyframes charIn{from{opacity:0;transform:translateX(25%)}to{opacity:1;transform:none}}
+#charMood,#charMood svg{width:100%;height:100%;display:block}
+#charMood svg{transform-origin:50% 100%;animation:breathe 3.2s ease-in-out infinite;filter:drop-shadow(0 1em 1.2em #0008)}
+@keyframes breathe{50%{transform:scaleY(1.012) translateY(-.3%)}}
+.char-name{position:absolute;bottom:3%;right:50%;transform:translateX(50%);background:#000a;border:1px solid #fff3;padding:.15em .8em;border-radius:999px;font-size:.8em;font-weight:700;white-space:nowrap}
+.scene-tag{position:absolute;top:3%;left:2.5%;z-index:8;background:#0008;border:1px solid #fff2;padding:.25em .9em;border-radius:999px;font-size:.75em;font-weight:700;color:#ffe9a8}
+.sound-wave{position:absolute;top:3%;right:2.5%;z-index:8;display:flex;gap:.18em;align-items:flex-end;height:1.4em;opacity:0;transition:.3s}
+.sound-wave.on{opacity:.9}
+.sound-wave i{width:.25em;background:var(--accent);border-radius:2px;animation:eq .8s ease-in-out infinite}
+.sound-wave i:nth-child(2){animation-delay:.2s}.sound-wave i:nth-child(3){animation-delay:.4s}.sound-wave i:nth-child(4){animation-delay:.1s}
+@keyframes eq{0%,100%{height:20%}50%{height:100%}}
+
+/* ---------- Character moods ---------- */
+.mouth,.opt,.tint{opacity:0;transition:opacity .3s}
+.head{transform-box:fill-box;transform-origin:50% 95%;transition:transform .35s}
+.pupil{transition:transform .3s}
+.lid{transform:translateY(-26px);transition:transform .3s}
+.brow{transform-box:fill-box;transform-origin:center;transition:transform .3s}
+.mood-suspicious .m-flat,.mood-spy .m-small,.mood-listen .m-small,.mood-angry .m-grit,.mood-hurt .m-frown,.mood-jealous .m-frown,.mood-smug .m-smirk,.mood-leader .m-smirk,.mood-stern .m-line,.mood-shock .m-o{opacity:1}
+/* suspicious */
+.mood-suspicious .lid{transform:translateY(-9px)}
+.mood-suspicious .brow-l{transform:translateY(3px) rotate(9deg)}
+.mood-suspicious .brow-r{transform:translateY(-7px)}
+.mood-suspicious .pupil{animation:dart 3.4s ease-in-out infinite}
+.mood-suspicious .head{animation:look 3.4s ease-in-out infinite}
+@keyframes dart{0%,18%{transform:translateX(0)}22%,42%{transform:translateX(-8px)}46%,62%{transform:translateX(8px)}66%,80%{transform:translate(-4px,-1px)}84%,100%{transform:translateX(0)}}
+@keyframes look{0%,18%{transform:rotate(0)}22%,42%{transform:rotate(-3deg)}46%,62%{transform:rotate(3deg)}66%,100%{transform:rotate(0)}}
+/* angry */
+.mood-angry .lid{transform:translateY(-8px)}
+.mood-angry .brow-l{transform:translateY(5px) rotate(16deg)}
+.mood-angry .brow-r{transform:translateY(5px) rotate(-16deg)}
+.mood-angry .tint-red{opacity:.3}
+.mood-angry .anger{opacity:1}
+.mood-angry .head{animation:shake .1s 8 alternate}
+@keyframes shake{from{transform:translateX(-3px) rotate(-1deg)}to{transform:translateX(3px) rotate(1deg)}}
+/* hurt */
+.mood-hurt .lid{transform:translateY(-12px)}
+.mood-hurt .brow-l{transform:rotate(-12deg)}
+.mood-hurt .brow-r{transform:rotate(12deg)}
+.mood-hurt .head{transform:rotate(4deg)}
+.mood-hurt .sweat,.mood-shock .sweat,.mood-sweat .sweat{opacity:1}
+.mood-hurt .pupil{transform:translateY(2px)}
+/* smug & leader */
+.mood-smug .lid,.mood-leader .lid{transform:translateY(-7px)}
+.mood-smug .brow,.mood-leader .brow{transform:translateY(-4px)}
+.mood-smug .head,.mood-leader .head{transform:rotate(-5deg) translateY(-2px)}
+.mood-smug .pupil,.mood-leader .pupil{transform:translateX(-4px)}
+.mood-leader .crown{opacity:1}
+/* stern */
+.mood-stern .lid{transform:translateY(-8px)}
+.mood-stern .brow{transform:translateY(5px)}
+.mood-stern .armsCross{opacity:1}
+/* spy */
+.mood-spy .eyeL .lid{transform:translateY(-5px)}
+.mood-spy .eyeR .lid{transform:translateY(-20px)}
+.mood-spy .brow-l{transform:translateY(4px) rotate(12deg)}
+.mood-spy .brow-r{transform:translateY(-9px)}
+.mood-spy .pupil{transform:translateX(5px)}
+.mood-spy .armSpy{opacity:1}
+.mood-spy .head{transform:rotate(3deg)}
+/* listen */
+.mood-listen .lid{transform:translateY(-9px)}
+.mood-listen .brow-l{transform:rotate(8deg)}
+.mood-listen .brow-r{transform:translateY(-6px)}
+.mood-listen .pupil{transform:translateX(8px)}
+.mood-listen .armEar,.mood-listen .earGlow{opacity:1}
+.mood-listen .head{transform:rotate(6deg)}
+.earGlow{animation:pulse 1.2s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
+/* jealous */
+.mood-jealous .lid{transform:translateY(-8px)}
+.mood-jealous .brow-l{transform:translateY(3px) rotate(9deg)}
+.mood-jealous .brow-r{transform:translateY(3px) rotate(-9deg)}
+.mood-jealous .pupil{transform:translateX(-8px)}
+.mood-jealous .tint-green{opacity:.32}
+/* shock */
+.mood-shock .lid{transform:translateY(-30px)}
+.mood-shock .brow{transform:translateY(-10px)}
+.mood-shock .head{transform:translateY(-4px)}
+
+/* ---------- Generic animation utilities ---------- */
+.a{animation-duration:.7s;animation-fill-mode:both;animation-delay:var(--d,0s);animation-timing-function:cubic-bezier(.2,.9,.3,1.25)}
+.pop{animation-name:pop}.fadeUp{animation-name:fadeUp}.slideInL{animation-name:slideInL;animation-duration:1s}.stampIn{animation-name:stampIn;animation-duration:.45s}
+@keyframes pop{from{opacity:0;transform:scale(.2) rotate(var(--r,0deg))}to{opacity:1;transform:scale(1) rotate(var(--r,0deg))}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(1.6em)}to{opacity:1;transform:none}}
+@keyframes slideInL{from{opacity:0;transform:translateX(-12em)}to{opacity:1;transform:none}}
+@keyframes stampIn{0%{opacity:0;transform:scale(3) rotate(var(--r,0deg))}70%{opacity:1;transform:scale(.9) rotate(var(--r,0deg))}100%{opacity:1;transform:scale(1) rotate(var(--r,0deg))}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes pulse{50%{transform:scale(1.12);opacity:.7}}
+@keyframes floaty{50%{transform:translateY(-.6em)}}
+@keyframes blink{0%,100%{opacity:.15}10%,30%{opacity:1}}
+@keyframes twinkle{50%{transform:scale(.6) rotate(20deg);opacity:.4}}
+@keyframes jiggle{0%,100%{transform:rotate(0)}25%{transform:rotate(-4deg)}75%{transform:rotate(4deg)}}
+
+.center{position:absolute;left:0;top:0;bottom:0;width:62%;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:.6em}
+.person{position:absolute;width:3.6em;height:6.6em;transform-origin:bottom center}
+.person .h{position:absolute;top:0;left:.5em;width:2.6em;height:2.8em;border-radius:50%;background:#f0c08a;z-index:1}
+.person .h i{position:absolute;top:1.1em;width:.32em;height:.4em;border-radius:50%;background:#222}
+.person .h i:first-child{left:.65em}.person .h i:last-child{right:.65em}
+.person .b{position:absolute;top:2.5em;left:0;width:3.6em;height:4.1em;border-radius:1.8em 1.8em .5em .5em;background:var(--c,#4a7bd1)}
+.person.dark .h,.person.dark .b{background:#05070c}
+.chip{position:absolute;background:#ffffff1c;border:1px solid #ffffff40;backdrop-filter:blur(4px);color:#fff;padding:.3em .9em;border-radius:999px;font-weight:700;font-size:.95em;white-space:nowrap;box-shadow:0 .3em 1em #0004}
+.chip.big{font-size:1.15em;white-space:normal;max-width:30em;border-radius:1em;line-height:1.6}
+.chip.red{background:#e63946e0;border-color:#ff8a93}
+.chip.gold{background:#ffd166;color:#2b1d00;border-color:#fff3b0}
+.chip.green{background:#2ecc71e0;border-color:#a7f3c8;color:#032b14}
+.bubble{position:absolute;background:#fff;color:#1d1d2b;padding:.55em 1em;border-radius:1.1em;font-weight:700;font-size:1em;line-height:1.55;max-width:20em;box-shadow:0 .4em 1.2em #0005;z-index:4}
+.bubble::after{content:'';position:absolute;bottom:-.7em;left:1.4em;border:.75em solid transparent;border-top-color:#fff;border-bottom:0}
+.bubble.r::after{left:auto;right:1.4em}
+.bubble.big{font-size:1.25em}
+.bubble.thought{border-radius:2em;background:#f3f0ff}
+.bubble.thought::after{border:none;width:.9em;height:.9em;border-radius:50%;background:#f3f0ff;bottom:-1.1em;right:1.2em;left:auto;box-shadow:.8em .9em 0 -.15em #f3f0ff}
+.bubble.thorn{background:#fff0f0;border:.18em dashed #e63946}
+.bubble.thorn::after{border-top-color:#e63946}
+.emo{position:absolute;line-height:1}
+.qm{position:absolute;font-size:3.5em;font-weight:900;color:#ffd166;text-shadow:0 0 .4em #ffd16688;animation:pop .6s var(--d) both,floaty 3s calc(var(--d) + .6s) ease-in-out infinite}
+.qm.s{font-size:2em;color:#fff}
+.stamp{position:absolute;font-size:2.6em;font-weight:900;color:var(--red);border:.12em solid var(--red);padding:0 .5em;border-radius:.3em;background:#fffffff0;box-shadow:0 .2em .8em #0006;animation:stampIn .45s var(--d) both}
+.stamp.sm{font-size:1.4em}
+.title-card{text-align:center;background:#0006;border:1px solid #fff3;padding:1.4em 2.4em;border-radius:1.2em;backdrop-filter:blur(6px)}
+.title-card small{color:var(--accent);font-weight:700;font-size:1.1em}
+.title-card h1{font-size:3.4em;font-weight:900;background:linear-gradient(90deg,#ffd166,#ff7b7b);-webkit-background-clip:text;background-clip:text;color:transparent;line-height:1.4}
+.title-card p{color:#dfe2ff}
+.lens{position:absolute;width:5em;height:5em;border:.45em solid #d4a72c;border-radius:50%;background:radial-gradient(circle at 35% 35%,#ffffff55,#bfe3ff22);box-shadow:0 0 1em #0006;z-index:5}
+.lens::after{content:'';position:absolute;width:.7em;height:3em;background:#6b4423;border-radius:.3em;bottom:-2.7em;right:-.9em;transform:rotate(-40deg)}
+.lens.scan{animation:pop .5s var(--d) both,scan 4s calc(var(--d) + .5s) ease-in-out infinite}
+@keyframes scan{0%,100%{left:2%}50%{left:44%}}
+.lens.zoom{animation:pop .5s var(--d) both,pulse 1.2s calc(var(--d) + .5s) ease-in-out infinite}
+
+/* meter */
+.meter{position:absolute}
+.m-title{font-weight:900;font-size:1.3em;margin-bottom:.6em;color:var(--accent)}
+.m-bar{position:relative;height:2.2em;border-radius:1.1em;background:#ffffff1a;border:1px solid #fff3}
+.m-fill{position:absolute;inset:0;border-radius:1.1em;background:linear-gradient(to left,#2ecc71,#f1c40f,#e67e22,#e74c3c);clip-path:inset(0 0 0 100%);animation:fillR 5s 1s ease-in-out forwards}
+@keyframes fillR{to{clip-path:inset(0 0 0 0)}}
+.m-needle{position:absolute;top:-.7em;bottom:-.7em;width:.4em;border-radius:.2em;background:#fff;right:0;box-shadow:0 0 .6em #fff;animation:needle 5s 1s ease-in-out forwards}
+@keyframes needle{to{right:calc(100% - .4em)}}
+.m-labels{display:flex;justify-content:space-between;margin-top:1em;font-size:.95em;line-height:1.5}
+.m-labels span:last-child{text-align:left}
+.m-faces{display:flex;justify-content:space-between;font-size:2em;margin-bottom:.3em}
+
+/* radar */
+.radar{position:absolute;width:15em;height:15em;border-radius:50%;background:repeating-radial-gradient(circle,#0b3d2a 0 2.4em,#0e5a3a 2.4em 2.5em);border:.2em solid #19ff8c88;box-shadow:0 0 2em #19ff8c33;overflow:hidden}
+.radar .sweep{position:absolute;inset:0;border-radius:50%;background:conic-gradient(#19ff8c99,#0000 22%);animation:spin 2.4s linear infinite}
+.blip{position:absolute;width:.9em;height:.9em;border-radius:50%;background:#ff4d4d;box-shadow:0 0 .8em #f00;animation:blink 2.4s var(--bd) infinite}
+
+/* spill / notes / safe */
+.cup{position:absolute;font-size:2.4em;animation:pop .4s .3s both,cupFly 1s 1s cubic-bezier(.3,.6,.4,1) forwards}
+@keyframes cupFly{to{transform:translate(-11em,1.5em) rotate(-260deg);opacity:0}}
+.note{position:absolute;background:#fffbe6;color:#3a2a00;font-weight:700;padding:.8em 1.2em;border-radius:.4em;box-shadow:0 .4em 1em #0006;line-height:1.6;transform-origin:center}
+.note.bad{background:#e63946;color:#fff;font-size:1.4em;font-weight:900}
+@keyframes vanish{to{opacity:0;transform:scale(.4)}}
+@keyframes intoSafe{to{opacity:0;transform:translate(var(--tx),var(--ty)) scale(.1) rotate(30deg)}}
+.safe{position:absolute;text-align:center;background:linear-gradient(#5c6378,#2d3142);border:.25em solid #9aa1b9;border-radius:.6em;padding:.5em 1em;font-size:1.1em;box-shadow:0 .5em 1.5em #0008}
+.safe b{display:block;font-size:2.4em;line-height:1.2}
+.ball{position:absolute;transform:translate(-50%,-50%);background:#e63946;color:#fff;font-weight:900;padding:.4em .9em;border-radius:999px;box-shadow:0 .3em 1em #0007;white-space:nowrap;z-index:5}
+@keyframes ballPass{0%{left:58%;top:28%;opacity:0}8%{opacity:1}33%{left:37%;top:56%}50%{left:30%;top:36%}66%{left:23%;top:56%}83%{left:16%;top:36%}100%{left:9%;top:56%;opacity:1}}
+.shout{position:absolute;font-weight:900;color:#ff4d5e;font-size:2.2em;text-shadow:0 .1em 0 #fff,0 0 .5em #000;z-index:5}
+.arg{position:absolute;background:#2a9d8f;color:#fff;font-weight:700;padding:.25em .8em;border-radius:999px;opacity:0;animation:argBounce 1.8s var(--d) ease-in-out forwards}
+@keyframes argBounce{0%{left:12%;opacity:0}10%{opacity:1}55%{left:44%;transform:rotate(0)}100%{left:26%;transform:translateY(5em) rotate(-120deg);opacity:0}}
+.rock{position:absolute;background:#6c6f7d;color:#fff;font-weight:900;font-size:1.4em;padding:.4em 1em;border-radius:1em 1.6em 1.2em 1.8em;border:.15em solid #9a9dab;box-shadow:inset 0 -.3em 0 #0004}
+.tree{position:absolute;bottom:10%;width:7em;height:13em;transform-origin:bottom center}
+.tree::before{content:'';position:absolute;left:0;right:0;top:0;height:80%;background:linear-gradient(#2f9e5b,#145c32);clip-path:polygon(50% 0,100% 100%,0 100%)}
+.tree::after{content:'';position:absolute;left:43%;width:14%;bottom:0;height:22%;background:#5b3a1e}
+.jungle-tint{position:absolute;inset:0;background:linear-gradient(#0a2a1488,#0000);animation:fadeUp 1s both}
+.fish{position:absolute;font-size:2.6em;animation:swim 5s linear infinite both}
+.fish.big{font-size:4.4em}
+@keyframes swim{0%{left:60%;opacity:0}6%{opacity:1}92%{opacity:1}100%{left:-8%;opacity:0}}
+.step{position:absolute;bottom:10%;width:14%;background:linear-gradient(#8d99ae,#4a5568);border-radius:.4em .4em 0 0;box-shadow:inset 0 .3em 0 #fff3;transform-origin:bottom;animation:growUp .6s var(--d) both}
+@keyframes growUp{from{transform:scaleY(0)}to{transform:scaleY(1)}}
+.spot{position:absolute;top:-5%;left:60%;width:40%;height:110%;background:radial-gradient(ellipse at 50% 100%,#fff6c8aa,#fff6c822 45%,#0000 70%),linear-gradient(#fff6c822,#fff6c844);clip-path:polygon(40% 0,60% 0,100% 100%,0 100%);animation:flick 1.2s .2s both}
+@keyframes flick{0%{opacity:0}20%{opacity:.8}30%{opacity:.1}50%{opacity:1}60%{opacity:.4}100%{opacity:1}}
+.spark{position:absolute;font-size:1.8em;animation:pop .5s var(--d) both,twinkle 1.4s calc(var(--d) + .5s) ease-in-out infinite}
+.wall{position:absolute;left:33%;top:18%;bottom:10%;width:2.4em;background:repeating-linear-gradient(#8b5e3c 0 1.4em,#6f4a2f 1.4em 1.5em);border-radius:.3em;box-shadow:.4em 0 1em #0006}
+.peek{animation:pop .5s var(--d) both,jiggle 1s calc(var(--d) + .5s) ease-in-out infinite}
+.lockbox,.dossier,.book,.tool{position:absolute;text-align:center;background:#ffffff14;border:1px solid #ffffff40;border-radius:.8em;padding:.5em 1em;backdrop-filter:blur(4px)}
+.lockbox{font-size:1.4em}.lockbox b,.dossier b,.book b,.tool b{display:block;font-size:.8em}.lockbox small,.dossier small,.tool small{display:block;color:#ffb3b3;font-size:.65em;font-weight:700}
+.dossier{font-size:2.6em;background:#5a3b16cc;border-color:#d9a35b}
+.scroll{background:linear-gradient(#f6e7c1,#e8d3a0);color:#3b2a10;padding:1.4em 2.6em;border-radius:.6em;box-shadow:0 .6em 2em #0008,inset 0 0 2em #b88a4a55;text-align:center;font-family:'Amiri',serif;position:relative;transform-origin:top;animation:unroll 1s .3s cubic-bezier(.2,.8,.3,1) both}
+.scroll::before,.scroll::after{content:'';position:absolute;left:-.6em;right:-.6em;height:1em;background:linear-gradient(#8b5e3c,#5b3a1e);border-radius:.5em}
+.scroll::before{top:-.5em}.scroll::after{bottom:-.5em}
+@keyframes unroll{from{transform:scaleY(0);opacity:0}to{transform:scaleY(1);opacity:1}}
+.verse{font-size:2.1em;line-height:1.8;clip-path:inset(0 0 0 100%);animation:reveal 1.6s var(--d) ease-out forwards}
+@keyframes reveal{to{clip-path:inset(0 0 0 0)}}
+.poet{font-size:1.2em;color:#7a4b1c;margin-top:.3em}
+.paper{position:absolute;background:#fff;color:#222;font-weight:700;font-size:.85em;padding:.4em .7em;border-radius:.3em;box-shadow:0 .3em .8em #0006;border-right:.3em solid var(--red);white-space:nowrap}
+@keyframes fall{to{opacity:0;transform:translate(var(--tx),var(--ty)) scale(.2) rotate(18deg)}}
+.counter{position:absolute;font-size:1.4em;font-weight:900;background:#000a;padding:.3em 1em;border-radius:.6em;border:1px solid #ff8a93}
+.counter b{color:#ff6b6b;font-size:1.3em}
+.book{font-size:1.6em}.book .ic{font-size:2.6em;display:block;line-height:1.1}
+.tool{font-size:1.4em}.tool .ic{font-size:2.4em;display:block}
+.heartf{font-size:5em;animation:pop .5s .3s both,freeze 1.2s 1.4s forwards}
+@keyframes freeze{to{filter:hue-rotate(190deg) saturate(.6) brightness(1.4);transform:scale(.85)}}
+.brain{font-size:5em;animation:pop .5s .6s both,glow 1.6s 1.2s ease-in-out infinite}
+@keyframes glow{50%{filter:drop-shadow(0 0 .3em #ffd166) brightness(1.2)}}
+.balance{position:absolute;width:22em;height:9em}
+.balance .post{position:absolute;left:50%;top:1.6em;bottom:0;width:.5em;margin-left:-.25em;background:#cfd3e6;border-radius:.2em}
+.balance .post::after{content:'';position:absolute;bottom:0;left:-2.5em;width:5.5em;height:.6em;background:#cfd3e6;border-radius:.3em}
+.beam{position:absolute;top:1.4em;left:0;right:0;height:.45em;background:#e8ebf7;border-radius:.2em;animation:tilt 1.2s 2.6s cubic-bezier(.3,1.6,.5,1) both}
+@keyframes tilt{from{transform:rotate(0)}to{transform:rotate(-12deg)}}
+.pan{position:absolute;top:.4em;background:#ffffff22;border:1px solid #fff6;border-top:.2em solid #e8ebf7;border-radius:0 0 1.2em 1.2em;padding:.5em .9em;font-weight:900;white-space:nowrap}
+.pan.l{left:-1em}.pan.r{right:-1em;font-size:.8em}
+.wave{position:absolute;width:3em;height:3em;border:.25em solid #ffd166;border-radius:50%;border-left-color:transparent;border-bottom-color:transparent;transform:rotate(45deg);opacity:0;animation:waveGo 2.2s var(--d) ease-out infinite}
+@keyframes waveGo{0%{opacity:0;transform:translateX(0) rotate(45deg) scale(.4)}20%{opacity:1}100%{opacity:0;transform:translateX(16em) rotate(45deg) scale(2)}}
+.shadowp{position:absolute;font-size:5em;filter:brightness(0) drop-shadow(0 0 .1em #f00);opacity:.0;animation:fadeUp 1s var(--d) forwards}
+.shadowp + .reye{position:absolute}
+.good{position:absolute;background:#2ecc71;color:#032b14;font-weight:900;padding:.25em .7em;border-radius:999px;font-size:.9em;animation:pop .5s var(--d) both,dim .8s 3.4s forwards}
+@keyframes dim{to{filter:grayscale(1);opacity:.25;transform:scale(.85)}}
+.flaw{position:absolute;width:1.1em;height:1.1em;border-radius:50%;background:#e63946;box-shadow:0 0 .8em #f00;z-index:2}
+.track{position:absolute;background:#0006;border:1px solid #fff3;border-radius:1em;padding:1em 1em 1em 4.5em}
+.lane{position:relative;height:3.6em;border-bottom:.15em dashed #fff4;margin-bottom:.6em}
+.token{position:absolute;right:0;top:.2em;font-size:2.2em;text-align:center;line-height:1}
+.token small{display:block;font-size:.35em;font-weight:700;color:#fff}
+.token.me{animation:raceMe 5s 1s ease-in-out forwards;filter:drop-shadow(0 0 .25em #3ddc84)}
+.token.other{animation:raceOther 5s 1s ease-in-out forwards}
+@keyframes raceMe{0%{right:0}30%{right:20%}50%{right:32%}70%{right:62%}100%{right:84%}}
+@keyframes raceOther{0%{right:0}30%{right:30%}50%{right:48%}70%{right:62%}100%{right:82%}}
+.finish{position:absolute;left:.6em;top:50%;transform:translateY(-50%);font-size:3em;animation:pulse 1.2s infinite}
+.flames{position:absolute;font-size:1.6em;animation:twinkle .5s infinite}
+.sum-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:.6em;width:88%}
+.sum-card{background:#ffffff14;border:1px solid #ffffff33;border-radius:.8em;padding:.6em .9em;display:flex;gap:.6em;align-items:center;font-weight:700}
+.sum-card span{font-size:1.6em}
+.sum-card:last-child{grid-column:1/-1;justify-content:center}
+
+/* station card overlay */
+#stationCard{position:absolute;inset:0;z-index:20;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle,#1d2160f2,#070818f8);opacity:0;pointer-events:none;transition:opacity .35s}
+#stationCard.show{opacity:1}
+#stationCard .sc-inner{text-align:center}
+#stationCard.show .sc-inner{animation:pop .7s cubic-bezier(.2,.9,.3,1.3) both}
+.sc-num{color:var(--accent);font-weight:900;font-size:1.4em;letter-spacing:.05em}
+.sc-icon{font-size:5em;line-height:1.3}
+.sc-name{font-size:2.6em;font-weight:900}
+.sc-line{height:.25em;width:0;margin:.5em auto 0;background:linear-gradient(90deg,#ffd166,#e76f51);border-radius:1em}
+#stationCard.show .sc-line{animation:line 1s .3s forwards}
+@keyframes line{to{width:60%}}
+
+/* start overlay */
+#startOverlay{position:absolute;inset:0;z-index:30;display:flex;flex-direction:column;gap:.8em;align-items:center;justify-content:center;background:radial-gradient(circle,#1d2160ee,#070818fa);text-align:center}
+#startOverlay h2{font-size:2.6em;font-weight:900;background:linear-gradient(90deg,#ffd166,#ff7b7b);-webkit-background-clip:text;background-clip:text;color:transparent}
+#startOverlay p{color:var(--muted)}
+#startBtn{font-size:1.4em;font-weight:900;padding:.6em 2em;border:none;border-radius:999px;background:linear-gradient(135deg,#ffd166,#f4a261);color:#1b1b1b;box-shadow:0 .5em 2em #ffd16655;animation:pulse 1.6s infinite}
+.start-eyes{font-size:4em;animation:jiggle 1.4s infinite}
+
+/* ---------- Bottom UI ---------- */
+#timebar{height:5px;background:#ffffff14;border-radius:3px;margin:10px 4px 0;overflow:hidden}
+#timebar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#ffd166,#e76f51)}
+.caption{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:14px 18px;margin-top:10px}
+.cap-head{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;margin-bottom:6px}
+#stLabel{background:#ffd16622;color:var(--accent);padding:2px 10px;border-radius:999px;font-size:.8rem;font-weight:700}
+#scTitle{font-size:1.2rem;font-weight:900;flex:1}
+#counter{color:var(--muted);font-size:.85rem;font-weight:700}
+#narr{font-size:1.08rem;line-height:2;min-height:4em;cursor:pointer}
+#narr .cursor{display:inline-block;width:2px;height:1.1em;background:var(--accent);vertical-align:middle;animation:blink 1s infinite;margin-inline-start:2px}
+.controls{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-top:12px}
+.btn{display:inline-flex;align-items:center;gap:6px;background:var(--panel);border:1px solid var(--line);color:var(--txt);padding:10px 18px;border-radius:12px;font-weight:700;font-size:.95rem;transition:.2s}
+.btn:hover:not(:disabled){border-color:#ffd16688;transform:translateY(-2px)}
+.btn:disabled{opacity:.35;cursor:not-allowed}
+.btn.primary{background:linear-gradient(135deg,#ffd166,#f4a261);color:#1b1b1b;border-color:transparent}
+.btn.toggle.on{background:#2ecc7122;border-color:#2ecc71;color:#9ff0c2}
+#dots{display:flex;flex-wrap:wrap;justify-content:center;gap:5px;margin-top:12px}
+.dot{width:12px;height:12px;border-radius:50%;border:none;background:#ffffff22;transition:.2s}
+.dot.sep{margin-inline-start:10px}
+.dot.active{background:var(--accent);transform:scale(1.35);box-shadow:0 0 8px var(--accent)}
+.dot.seen{background:#ffd16677}
+details.script{background:var(--panel);border:1px solid var(--line);border-radius:18px;margin-top:12px;overflow:hidden}
+details.script summary{padding:12px 18px;font-weight:900;cursor:pointer;list-style:none;display:flex;justify-content:space-between}
+details.script summary::after{content:'▾';transition:.2s}
+details.script[open] summary::after{transform:rotate(180deg)}
+.script-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;padding:0 14px 14px}
+.sc-item{background:#0d1030;border:1px solid var(--line);border-radius:12px;padding:10px 12px}
+.sc-item h4{font-size:.85rem;color:var(--accent);margin-bottom:4px}
+.sc-item p{font-size:.92rem;line-height:1.8;color:#dde0ff}
+.hint{text-align:center;color:var(--muted);font-size:.78rem;margin-top:10px}
+kbd{background:#ffffff14;border:1px solid #fff3;border-radius:4px;padding:0 5px;font-family:inherit}
+#toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(100px);background:#000d;border:1px solid #fff3;padding:10px 18px;border-radius:12px;transition:.3s;z-index:99;font-size:.9rem}
+#toast.show{transform:translateX(-50%) translateY(0)}
+@media (max-width:700px){.script-grid{grid-template-columns:1fr}.btn{padding:9px 12px;font-size:.85rem}.brand h1{font-size:1rem}}
+@media (prefers-reduced-motion:reduce){*{animation-duration:.01s!important;animation-iteration-count:1!important}}
+</style>
 </head>
 <body>
-
-  <!-- شريط الإعلان العلوي -->
-  <div class="top-announcement">
-    <span>✨ شحن مجاني لكافة مدن المملكة للطلبات فوق <strong>499 ر.س</strong> | ضمان ذهبي واسترجاع خلال 14 يوماً</span>
-  </div>
-
-  <!-- رأس الموقع -->
-  <header class="site-header">
-    <div class="container header-inner">
-      <div class="header-right">
-        <!-- زر القائمة الجانبية (3 خطوط) -->
-        <button class="icon-btn" id="openDrawerBtn" aria-label="القائمة الرئيسية">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
-        </button>
-
-        <!-- الشعار -->
-        <a href="#" class="brand-logo" onclick="resetFilters(); return false;">
-          <div class="brand-mark">ن</div>
-          <div class="brand-text">
-            <span class="brand-title">نَسْج</span>
-            <span class="brand-subtitle">RUGS & CARPETS</span>
-          </div>
-        </a>
-      </div>
-
-      <!-- مربع البحث -->
-      <div class="header-search">
-        <div class="search-input-wrap">
-          <span class="search-icon">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-          </span>
-          <input type="text" id="searchInput" class="search-input" placeholder="ابحث عن سجادة بالاسم، النمط، أو اللون...">
-          <button class="search-clear-btn" id="searchClearBtn">✕</button>
-        </div>
-      </div>
-
-      <!-- الإجراءات السريعة (سطح المكتب) -->
-      <div class="header-left">
-        <nav class="header-nav">
-          <a href="#" class="nav-link active" onclick="resetFilters(); return false;">الرئيسية</a>
-          <a href="#styles-section" class="nav-link">الأنماط</a>
-          <a href="#sizes-section" class="nav-link">المقاسات</a>
-          <a href="#all-products" class="nav-link">الكتالوج الكامل</a>
-          <a href="admin.html" class="nav-link" style="color:#a87b51; font-weight:700;">⚙️ لوحة الإدارة</a>
-        </nav>
-
-        <button class="icon-btn" id="favHeaderBtn" aria-label="المفضلة" onclick="showToast('قائمة المفضلة: ' + favorites.size + ' قطعة')">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
-          <span class="badge-count" id="favCountBadge" style="display:none">0</span>
-        </button>
-
-        <button class="icon-btn" id="openCartBtn" aria-label="سلة المشتريات">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
-          <span class="badge-count" id="cartCountBadge" style="display:none">0</span>
-        </button>
-      </div>
+<div class="app">
+  <header>
+    <div class="brand">
+      <div class="logo">🕵️</div>
+      <div><h1>أنماط الشخصية في بيئة العمل</h1><small>الشخصية الشكّاكة / المرتابة — عرض تفاعلي متحرك</small></div>
     </div>
+    <nav class="stations" id="stations" aria-label="المحطات"></nav>
   </header>
 
-  <!-- المحتوى الرئيسي -->
-  <main class="container">
-
-    <!-- البانر الترويجي الفاخر -->
-    <section class="hero-section">
-      <img src="assets/hero.jpg" alt="سجاد فاخر" class="hero-bg">
-      <div class="hero-overlay"></div>
-      <div class="hero-content">
-        <span class="hero-tag">🌟 تشكيلة خريف وشتاء 2026 الحصرية</span>
-        <h1 class="hero-title">فخامة تحكي تفاصيل منزلك ونقوش تدوم لأجيال</h1>
-        <p class="hero-desc">استكشف أفخر تشكيلات السجاد اليدوي والعصري؛ حِرفية أصيلة، خامات ناعمة ومقاسات تناسب كل زاوية في مساحتك المفضلة.</p>
-        <div class="hero-actions">
-          <a href="#styles-section" class="btn-primary">
-            <span>اكتشف الأنماط</span>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-          </a>
-          <a href="#sizes-section" class="btn-outline-light">تسوق حسب المقاس</a>
+  <div class="stage-wrap">
+    <div id="stage" data-st="0">
+      <div class="bg-eye" style="left:6%;top:8%"></div>
+      <div class="bg-eye" style="left:40%;top:62%;animation-delay:-5s"></div>
+      <div class="floor"></div>
+      <div id="propsBack"></div>
+      <div id="charWrap">
+        <div id="charMood" class="mood-suspicious">
+          <svg viewBox="0 0 220 320" aria-label="الشخصية الشكاكة">
+            <defs>
+              <clipPath id="clipL"><ellipse cx="84" cy="102" rx="15" ry="11"/></clipPath>
+              <clipPath id="clipR"><ellipse cx="136" cy="102" rx="15" ry="11"/></clipPath>
+              <radialGradient id="skinG" cx="45%" cy="38%" r="70%"><stop offset="0" stop-color="#ffd9a8"/><stop offset="1" stop-color="#e2a46c"/></radialGradient>
+            </defs>
+            <g class="body">
+              <path d="M28 320 Q30 222 110 208 Q190 222 192 320 Z" fill="#2d3a5a"/>
+              <path d="M90 210 L110 262 L130 210 Z" fill="#f4f4f4"/>
+              <path d="M105 214 L115 214 L119 250 L110 266 L101 250 Z" fill="#b8323a"/>
+              <path d="M90 210 L110 264 L78 244 L84 214 Z" fill="#22304f"/>
+              <path d="M130 210 L110 264 L142 244 L136 214 Z" fill="#22304f"/>
+              <rect x="146" y="252" width="22" height="5" rx="2" fill="#ffd166"/>
+            </g>
+            <path d="M96 166 L124 166 L122 212 L98 212 Z" fill="#d9965f"/>
+            <g class="armsCross opt">
+              <path d="M48 264 Q110 302 172 264" stroke="#1f2a45" stroke-width="30" fill="none" stroke-linecap="round"/>
+              <circle cx="60" cy="268" r="12" fill="#f1c27d"/><circle cx="160" cy="268" r="12" fill="#f1c27d"/>
+            </g>
+            <g class="head">
+              <ellipse cx="50" cy="110" rx="10" ry="15" fill="#e2a46c"/>
+              <ellipse cx="170" cy="110" rx="10" ry="15" fill="#e2a46c"/>
+              <g class="earGlow opt"><circle cx="172" cy="110" r="18" fill="none" stroke="#ffd166" stroke-width="3"/><circle cx="172" cy="110" r="28" fill="none" stroke="#ffd166" stroke-width="2" opacity=".6"/></g>
+              <ellipse cx="110" cy="105" rx="60" ry="70" fill="url(#skinG)"/>
+              <ellipse class="tint tint-red" cx="110" cy="105" rx="60" ry="70" fill="#ff2a2a"/>
+              <ellipse class="tint tint-green" cx="110" cy="105" rx="60" ry="70" fill="#22d36b"/>
+              <path d="M50 100 Q44 32 110 30 Q176 32 170 100 Q166 66 140 60 Q112 74 84 60 Q56 66 50 100 Z" fill="#2b2118"/>
+              <path d="M66 128 Q110 190 154 128 Q150 168 110 174 Q70 168 66 128 Z" fill="#000" opacity=".07"/>
+              <g class="eyeL" clip-path="url(#clipL)">
+                <ellipse cx="84" cy="102" rx="15" ry="11" fill="#fff"/>
+                <g class="pupil"><circle cx="84" cy="103" r="6.5" fill="#1d1d1d"/><circle cx="86.5" cy="100.5" r="2" fill="#fff"/></g>
+                <g class="lid"><rect x="66" y="78" width="36" height="24" fill="#e2a46c"/><line x1="66" y1="102" x2="102" y2="102" stroke="#6b3f22" stroke-width="2.5"/></g>
+              </g>
+              <g class="eyeR" clip-path="url(#clipR)">
+                <ellipse cx="136" cy="102" rx="15" ry="11" fill="#fff"/>
+                <g class="pupil"><circle cx="136" cy="103" r="6.5" fill="#1d1d1d"/><circle cx="138.5" cy="100.5" r="2" fill="#fff"/></g>
+                <g class="lid"><rect x="118" y="78" width="36" height="24" fill="#e2a46c"/><line x1="118" y1="102" x2="154" y2="102" stroke="#6b3f22" stroke-width="2.5"/></g>
+              </g>
+              <path d="M72 117 Q84 122 96 117" stroke="#b9794a" stroke-width="2" fill="none"/>
+              <path d="M124 117 Q136 122 148 117" stroke="#b9794a" stroke-width="2" fill="none"/>
+              <g class="brow brow-l"><path d="M68 82 Q84 75 100 84" stroke="#2b2118" stroke-width="7" fill="none" stroke-linecap="round"/></g>
+              <g class="brow brow-r"><path d="M120 84 Q136 75 152 82" stroke="#2b2118" stroke-width="7" fill="none" stroke-linecap="round"/></g>
+              <path d="M110 104 Q101 126 112 128" stroke="#b0703f" stroke-width="3" fill="none" stroke-linecap="round"/>
+              <path d="M92 139 Q110 131 128 139 Q110 137 92 139 Z" fill="#2b2118" stroke="#2b2118" stroke-width="3" stroke-linejoin="round"/>
+              <path class="mouth m-flat" d="M96 151 Q112 148 126 153" stroke="#5a2a1a" stroke-width="4" fill="none" stroke-linecap="round"/>
+              <path class="mouth m-frown" d="M95 156 Q110 144 125 156" stroke="#5a2a1a" stroke-width="4" fill="none" stroke-linecap="round"/>
+              <path class="mouth m-smirk" d="M95 151 Q115 155 128 143" stroke="#5a2a1a" stroke-width="4" fill="none" stroke-linecap="round"/>
+              <path class="mouth m-line" d="M97 151 L123 151" stroke="#5a2a1a" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+              <path class="mouth m-small" d="M103 151 Q110 149 117 151" stroke="#5a2a1a" stroke-width="4" fill="none" stroke-linecap="round"/>
+              <g class="mouth m-grit"><rect x="93" y="144" width="34" height="14" rx="5" fill="#fff" stroke="#5a2a1a" stroke-width="3"/><path d="M93 151 H127 M102 144 V158 M110 144 V158 M118 144 V158" stroke="#5a2a1a" stroke-width="1.5"/></g>
+              <ellipse class="mouth m-o" cx="110" cy="153" rx="7" ry="9" fill="#5a2a1a"/>
+              <path class="sweat opt" d="M160 66 Q168 80 160 88 Q152 80 160 66 Z" fill="#7cc8ff"/>
+              <text class="anger opt" x="146" y="56" font-size="26">💢</text>
+              <g class="crown opt"><path d="M78 40 L82 6 L96 26 L110 0 L124 26 L138 6 L142 40 Z" fill="#ffd23f" stroke="#c99a00" stroke-width="3" stroke-linejoin="round"/><circle cx="110" cy="24" r="4.5" fill="#e63946"/><circle cx="90" cy="32" r="3" fill="#3a86ff"/><circle cx="130" cy="32" r="3" fill="#3a86ff"/></g>
+            </g>
+            <g class="armSpy opt">
+              <path d="M172 238 Q206 202 194 150" stroke="#2d3a5a" stroke-width="22" fill="none" stroke-linecap="round"/>
+              <circle cx="192" cy="146" r="12" fill="#f1c27d"/>
+              <line x1="186" y1="138" x2="174" y2="122" stroke="#6b4423" stroke-width="8" stroke-linecap="round"/>
+              <circle cx="160" cy="102" r="24" fill="rgba(190,225,255,.35)" stroke="#d4a72c" stroke-width="6"/>
+              <path d="M146 92 Q152 84 162 84" stroke="#fff" stroke-width="3" fill="none" opacity=".8"/>
+            </g>
+            <g class="armEar opt">
+              <path d="M176 240 Q210 190 188 128" stroke="#2d3a5a" stroke-width="22" fill="none" stroke-linecap="round"/>
+              <ellipse cx="183" cy="116" rx="12" ry="16" fill="#f1c27d"/>
+            </g>
+          </svg>
         </div>
+        <div class="char-name">المُرتاب</div>
       </div>
-    </section>
-
-    <!-- شريط مزايا الشراء -->
-    <section class="features-strip">
-      <div class="feature-box">
-        <div class="feature-icon-wrap">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
-        </div>
-        <div>
-          <div class="feature-title">أصالة الخامات وضمان الجودة</div>
-          <div class="feature-desc">صوف طبيعي، حرير ومواد مقاومة للبقع</div>
-        </div>
-      </div>
-      <div class="feature-box">
-        <div class="feature-icon-wrap">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>
-        </div>
-        <div>
-          <div class="feature-title">توصيل سريع ومجاني</div>
-          <div class="feature-desc">لكافة مناطق ومدن المملكة بضمان التوصيل السليم</div>
-        </div>
-      </div>
-      <div class="feature-box">
-        <div class="feature-icon-wrap">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"></path><path d="M21 3v5h-5"></path><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"></path><path d="M3 21v-5h5"></path></svg>
-        </div>
-        <div>
-          <div class="feature-title">تجربة منزلية واسترجاع مرن</div>
-          <div class="feature-desc">استبدال واسترجاع مريح خلال 14 يوماً</div>
-        </div>
-      </div>
-      <div class="feature-box">
-        <div class="feature-icon-wrap">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 14 14"></polyline></svg>
-        </div>
-        <div>
-          <div class="feature-title">دعم واستشارات ديكور</div>
-          <div class="feature-desc">مساعدة فورية لاختيار المقاس واللون المناسب</div>
-        </div>
-      </div>
-    </section>
-
-    <!-- قسم أنماط السجاد (Cards Grid) -->
-    <section id="styles-section" class="mb-12">
-      <div class="section-header">
-        <div class="section-title-wrap">
-          <span class="section-subtitle">تشكيلاتنا المتخصصة</span>
-          <h2 class="section-title">اكتشف أنماط وتصاميم السجاد</h2>
-        </div>
-        <button class="section-link" onclick="resetFilters()">عرض جميع الأنماط</button>
-      </div>
-
-      <div class="styles-carousel" id="stylesGridContainer">
-        <!-- يتم ملؤها ديناميكياً بواسطة JavaScript -->
-      </div>
-    </section>
-
-    <!-- قسم التسوق حسب المقاس -->
-    <section id="sizes-section" class="mb-12">
-      <div class="section-header">
-        <div class="section-title-wrap">
-          <span class="section-subtitle">المقاسات الدقيقة</span>
-          <h2 class="section-title">تسوق حسب مقاس غرفتك</h2>
-        </div>
-        <span class="text-muted" style="font-size:0.85rem">اختر المقاس لعرض السجاد المتاح به فوراً</span>
-      </div>
-
-      <div class="sizes-chips-wrap" id="sizesChipsContainer">
-        <!-- يتم ملؤها ديناميكياً بواسطة JavaScript -->
-      </div>
-    </section>
-
-    <!-- قسم المنتجات الأكثر مبيعاً -->
-    <section id="bestsellers-section" class="mb-12">
-      <div class="section-header">
-        <div class="section-title-wrap">
-          <span class="section-subtitle">الأكثر طلباً</span>
-          <h2 class="section-title">قطع نالت إعجاب عملائنا</h2>
-        </div>
-        <a href="#all-products" class="section-link">تصفح الكل ←</a>
-      </div>
-      <div class="products-grid" id="bestsellersGrid"></div>
-    </section>
-
-    <!-- بانر الحرفية والإتقان الفني -->
-    <section class="artisan-banner">
-      <img src="assets/artisan.jpg" alt="حياكة يدوية" class="artisan-image">
-      <div class="artisan-content">
-        <div class="artisan-tag">حكاية حِرفة</div>
-        <h3 class="artisan-title">نسيج متقن، وغزل يدوي يصنع الفرق في كل خيط</h3>
-        <p class="artisan-desc">نختار سجادنا بعناية فائقة من أعرق بيوت الغزل والنسيج حول العالم، من سدو الجزيرة إلى نول أصفهان والشرق الأقصى، معتمدين على مواد طبيعية 100% تدوم طويلاً وتمنح دفئاً وأصالة لا تضاهى.</p>
-        <button class="btn-primary" onclick="showToast('مرحباً بك! مستشار الديكور متاح لمساعدتك عبر الواتساب.')">
-          تواصل مع مستشار الديكور
-        </button>
-      </div>
-    </section>
-
-    <!-- قسم كتالوج المنتجات الرئيسي مع الفلترة والبحث -->
-    <section id="all-products">
-      <div class="section-header">
-        <div class="section-title-wrap">
-          <span class="section-subtitle" id="catalogSubtitle">الكتالوج الشامل</span>
-          <h2 class="section-title" id="catalogTitle">جميع المنتجات المتوفرة</h2>
-        </div>
-        <div style="display:flex; gap:10px; align-items:center;">
-          <select id="sortSelect" onchange="applyFiltersAndSort()" style="padding:8px 14px; border-radius:var(--radius-sm); background:var(--card-bg); font-weight:600; font-size:0.86rem;">
-            <option value="featured">المقترح والمميز</option>
-            <option value="price-asc">السعر: من الأقل للأعلى</option>
-            <option value="price-desc">السعر: من الأعلى للأقل</option>
-            <option value="rating">الأعلى تقييماً</option>
-          </select>
-          <button id="resetFiltersBtn" onclick="resetFilters()" style="display:none; padding:8px 14px; border-radius:var(--radius-sm); background:var(--surface); font-size:0.84rem; font-weight:600; color:var(--primary);">إعادة ضبط</button>
-        </div>
-      </div>
-
-      <div class="products-grid" id="catalogProductsGrid"></div>
-    </section>
-
-  </main>
-
-  <!-- تذييل الموقع -->
-  <footer class="site-footer">
-    <div class="container">
-      <div class="footer-grid">
-        <div class="footer-brand">
-          <div class="brand-logo">
-            <div class="brand-mark">ن</div>
-            <div class="brand-text">
-              <span class="brand-title" style="color:#fff;">نَسْج</span>
-              <span class="brand-subtitle" style="color:#ffd199;">RUGS & CARPETS</span>
-            </div>
-          </div>
-          <p>العلامة التجارية السعودية الرائدة في اقتناء وتصميم أفخر أنواع السجاد المنزلي العصري والكلاسيكي بأسلوب يجمع الأصالة بالحداثة.</p>
-          <div style="font-size:0.88rem; color:#d9cebe;">📍 الرياض، المملكة العربية السعودية</div>
-        </div>
-
-        <div class="footer-col">
-          <h4>تسوق بالأنماط</h4>
-          <ul class="footer-links">
-            <li><a href="#" onclick="filterByStyle('bohemian'); return false;">السجاد البوهيمي</a></li>
-            <li><a href="#" onclick="filterByStyle('modern'); return false;">السجاد المودرن</a></li>
-            <li><a href="#" onclick="filterByStyle('classic'); return false;">السجاد الكلاسيكي</a></li>
-            <li><a href="#" onclick="filterByStyle('luxury'); return false;">السجاد الفاخر</a></li>
-            <li><a href="#" onclick="filterByStyle('traditional'); return false;">السجاد التراثي</a></li>
-          </ul>
-        </div>
-
-        <div class="footer-col">
-          <h4>روابط سريعة</h4>
-          <ul class="footer-links">
-            <li><a href="#sizes-section">تسوق بالمقاسات</a></li>
-            <li><a href="#" onclick="openDrawerMenu('about'); return false;">من نحن</a></li>
-            <li><a href="#" onclick="openDrawerMenu('contact'); return false;">تواصل معنا</a></li>
-            <li><a href="#" onclick="showToast('سياسة الشحن: شحن وتوصيل مجاني للطلبات فوق 499 ر.س'); return false;">الشحن والتوصيل</a></li>
-            <li><a href="#" onclick="showToast('سياسة الاسترجاع: استبدال واسترجاع متاح خلال 14 يوماً'); return false;">سياسة الاستبدال والضمان</a></li>
-          </ul>
-        </div>
-
-        <div class="footer-col">
-          <h4>خدمة العملاء</h4>
-          <ul class="footer-links">
-            <li><span style="color:#a89f94;">الرقم الموحد:</span> 920000000</li>
-            <li><span style="color:#a89f94;">البريد:</span> care@nasjrugs.sa</li>
-            <li><span style="color:#a89f94;">الدوام:</span> يومياً 9:00 ص - 10:00 م</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="footer-bottom">
-        <p>© 2026 متجر نَسْج للسجاد الفاخر. جميع الحقوق محفوظة | نموذج واجهة تجريبية تفاعلية</p>
-      </div>
-    </div>
-  </footer>
-
-  <!-- شريط الجوال السفلي الثابت (4 خيارات أساسية) -->
-  <nav class="bottom-nav">
-    <button class="nav-bottom-item active" onclick="resetFilters(); window.scrollTo({top:0, behavior:'smooth'});">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
-      <span>الرئيسية</span>
-    </button>
-    <button class="nav-bottom-item" onclick="openDrawer();">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
-      <span>التصنيفات</span>
-    </button>
-    <button class="nav-bottom-item" onclick="openCart();">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
-      <span>السلة</span>
-      <span class="badge-count" id="bottomCartBadge" style="display:none">0</span>
-    </button>
-    <button class="nav-bottom-item" onclick="showToast('حسابي: تسجيل الدخول ومتابعة الطلبات متاح في النسخة المكتملة');">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-      <span>حسابي</span>
-    </button>
-  </nav>
-
-  <!-- القائمة الجانبية (3 خطوط ☰) -->
-  <div class="drawer-backdrop" id="drawerBackdrop" onclick="closeDrawer()">
-    <div class="side-drawer" onclick="event.stopPropagation()">
-      <div class="drawer-header">
-        <div class="drawer-title">قائمة المتجر</div>
-        <button class="icon-btn" onclick="closeDrawer()">✕</button>
-      </div>
-      <div class="drawer-body">
-        <ul class="drawer-menu-list">
-          <li>
-            <a href="#" class="drawer-link" onclick="toggleSubMenu('stylesSubMenu'); return false;">
-              <span>1. تصنيفات وأنماط السجاد</span>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
-            </a>
-            <ul class="drawer-sub-menu" id="stylesSubMenu">
-              <!-- يُملأ ديناميكياً بجميع الأنماط الـ 10 -->
-            </ul>
-          </li>
-          <li>
-            <a href="#" class="drawer-link" onclick="toggleSubMenu('sizesSubMenu'); return false;">
-              <span>2. التسوق حسب المقاس</span>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
-            </a>
-            <ul class="drawer-sub-menu" id="sizesSubMenu">
-              <!-- يُملأ ديناميكياً بالمقاسات -->
-            </ul>
-          </li>
-          <li>
-            <a href="#all-products" class="drawer-link" onclick="filterByFlag('new'); closeDrawer();">
-              <span>3. أحدث المنتجات (وصل حديثاً)</span>
-            </a>
-          </li>
-          <li>
-            <a href="#all-products" class="drawer-link" onclick="filterByFlag('best'); closeDrawer();">
-              <span>4. الأكثر مبيعاً</span>
-            </a>
-          </li>
-          <li>
-            <a href="#all-products" class="drawer-link" onclick="filterByFlag('sale'); closeDrawer();">
-              <span>5. العروض والخصومات الخاصة</span>
-            </a>
-          </li>
-          <li>
-            <a href="#" class="drawer-link" onclick="showToast('متجر نَسْج: متخصصون في صناعة وتوريد أرقى السجاد العصري والكلاسيكي.'); closeDrawer();">
-              <span>6. من نحن</span>
-            </a>
-          </li>
-          <li>
-            <a href="#" class="drawer-link" onclick="showToast('خدمة العملاء: care@nasjrugs.sa | هاتف: 920000000'); closeDrawer();">
-              <span>7. تواصل معنا</span>
-            </a>
-          </li>
-          <li style="margin-top:15px; border-top:1px dashed #eee; padding-top:10px;">
-            <a href="admin.html" class="drawer-link" style="color:#a87b51; font-weight:800;">
-              <span>⚙️ لوحة إدارة المتجر</span>
-            </a>
-          </li>
-        </ul>
+      <div id="props"></div>
+      <div class="vignette"></div>
+      <div class="scene-tag" id="sceneTag"></div>
+      <div class="sound-wave" id="soundWave"><i></i><i></i><i></i><i></i></div>
+      <div id="stationCard"><div class="sc-inner"><div class="sc-num" id="scNum"></div><div class="sc-icon" id="scIcon"></div><div class="sc-name" id="scName"></div><div class="sc-line"></div></div></div>
+      <div id="startOverlay">
+        <div class="start-eyes">👀</div>
+        <h2>الشخصية الشكّاكة</h2>
+        <p>عرض تفاعلي متحرك في خمس محطات — يُفضَّل تشغيل الصوت 🔊</p>
+        <button id="startBtn">▶ ابدأ العرض</button>
       </div>
     </div>
   </div>
 
-  <!-- درج سلة المشتريات -->
-  <div class="cart-backdrop" id="cartBackdrop" onclick="closeCart()">
-    <div class="cart-drawer" onclick="event.stopPropagation()">
-      <div class="cart-header">
-        <div style="font-weight:800; font-size:1.2rem;">سلة المشتريات (<span id="cartTotalItemsCount">0</span>)</div>
-        <button class="icon-btn" onclick="closeCart()">✕</button>
-      </div>
-      <div class="cart-items-wrap" id="cartItemsList">
-        <!-- عناصر السلة -->
-      </div>
-      <div class="cart-footer">
-        <div class="cart-total-row">
-          <span>الإجمالي التقريبي:</span>
-          <span id="cartTotalPrice">0 ر.س</span>
-        </div>
-        <button class="btn-primary" style="width:100%; justify-content:center;" onclick="showToast('🎉 تجربة ممتازة! سيتم تحويلك لبوابة الدفع الإلكتروني في النسخة المباشرة.');">
-          إتمام الطلب بأمان
-        </button>
-      </div>
-    </div>
+  <div id="timebar"><i></i></div>
+
+  <section class="caption" aria-live="polite">
+    <div class="cap-head"><span id="stLabel"></span><h2 id="scTitle"></h2><span id="counter"></span></div>
+    <p id="narr" title="انقر لإظهار النص كاملاً"></p>
+  </section>
+
+  <div class="controls">
+    <button class="btn" id="prevBtn">→ السابق</button>
+    <button class="btn" id="replayBtn">↻ إعادة المشهد</button>
+    <button class="btn primary" id="playBtn">▶ تشغيل تلقائي</button>
+    <button class="btn" id="nextBtn">التالي ←</button>
+    <button class="btn toggle on" id="sfxBtn">🔊 المؤثرات</button>
+    <button class="btn toggle" id="ttsBtn">🗣️ تعليق صوتي</button>
+    <button class="btn" id="fsBtn">⛶ ملء الشاشة</button>
   </div>
+  <div id="dots"></div>
 
-  <!-- نافذة تفاصيل السجادة الكاملة (Modal) -->
-  <div class="modal-backdrop" id="productModal" onclick="closeModal()">
-    <div class="modal-dialog" onclick="event.stopPropagation()">
-      <button class="modal-close-btn" onclick="closeModal()">✕</button>
-      <div class="modal-body" id="modalBodyContent">
-        <!-- يُملأ ديناميكياً عبر JS عند النقر على أي منتج -->
-      </div>
+  <details class="script" open>
+    <summary>🎬 السيناريو المرئي للمشهد الحالي</summary>
+    <div class="script-grid">
+      <div class="sc-item"><h4>🎬 ما تفعله الشخصية (الحركة)</h4><p id="spAct"></p></div>
+      <div class="sc-item"><h4>🎭 الحركات التعبيرية (الملامح)</h4><p id="spExp"></p></div>
+      <div class="sc-item"><h4>🔊 المؤثرات الصوتية المقترحة</h4><p id="spSfx"></p></div>
+      <div class="sc-item"><h4>📝 النص التوضيحي على الشاشة</h4><p id="spCap"></p></div>
     </div>
-  </div>
+  </details>
+  <p class="hint">اختصارات: <kbd>←</kbd> التالي · <kbd>→</kbd> السابق · <kbd>مسافة</kbd> تشغيل/إيقاف · <kbd>R</kbd> إعادة المشهد</p>
+</div>
+<div id="toast"></div>
 
-  <!-- صندوق رسائل التنبيه العائمة -->
-  <div class="toast-notice" id="toastNotice"></div>
+<script>
+/* =========================================================
+   1) SOUND ENGINE (Web Audio – synthesized, no files needed)
+   ========================================================= */
+const Sound = {
+  ctx:null, on:true,
+  init(){ if(!this.ctx){ const C = window.AudioContext||window.webkitAudioContext; if(!C) return; this.ctx = new C(); } if(this.ctx.state==='suspended') this.ctx.resume(); },
+  tone(f,d,type='sine',v=.2,f2=null,t0=0){
+    const c=this.ctx, t=c.currentTime+t0, o=c.createOscillator(), g=c.createGain();
+    o.type=type; o.frequency.setValueAtTime(f,t); if(f2) o.frequency.exponentialRampToValueAtTime(f2,t+d);
+    g.gain.setValueAtTime(0.0001,t); g.gain.exponentialRampToValueAtTime(v,t+0.01); g.gain.exponentialRampToValueAtTime(0.0001,t+d);
+    o.connect(g).connect(c.destination); o.start(t); o.stop(t+d+0.05);
+  },
+  noise(d,v=.2,ff=1000,ftype='bandpass',ff2=null,t0=0){
+    const c=this.ctx, t=c.currentTime+t0, len=Math.floor(c.sampleRate*d), buf=c.createBuffer(1,len,c.sampleRate), data=buf.getChannelData(0);
+    for(let i=0;i<len;i++) data[i]=Math.random()*2-1;
+    const s=c.createBufferSource(); s.buffer=buf; const f=c.createBiquadFilter(); f.type=ftype; f.frequency.setValueAtTime(ff,t); if(ff2) f.frequency.exponentialRampToValueAtTime(ff2,t+d);
+    const g=c.createGain(); g.gain.setValueAtTime(v,t); g.gain.exponentialRampToValueAtTime(0.0001,t+d);
+    s.connect(f).connect(g).connect(c.destination); s.start(t); s.stop(t+d);
+  },
+  play(name){ if(!this.on) return; this.init(); if(!this.ctx) return; const fn=SFX[name]; if(fn) try{fn(this)}catch(e){} }
+};
+const SFX = {
+  whoosh:s=>s.noise(.5,.25,300,'bandpass',3500),
+  pop:s=>s.tone(380,.12,'sine',.25,900),
+  stamp:s=>{s.tone(90,.25,'sine',.55,40); s.noise(.15,.35,700,'lowpass')},
+  ding:s=>{s.tone(880,.7,'sine',.18); s.tone(1320,.6,'sine',.08,null,.05)},
+  buzz:s=>s.tone(110,.4,'sawtooth',.16,85),
+  crash:s=>{s.noise(.8,.4,2500,'highpass'); s.tone(160,.3,'square',.12,50)},
+  boing:s=>s.tone(160,.45,'sine',.3,720),
+  tick:s=>s.tone(1800,.03,'square',.07),
+  heartbeat:s=>{s.tone(62,.16,'sine',.7,40); s.tone(62,.16,'sine',.55,40,.24)},
+  fanfare:s=>[523,659,784,1046].forEach((f,i)=>s.tone(f,.35,'triangle',.17,null,i*.12)),
+  gavel:s=>{s.tone(220,.08,'square',.3,100); s.noise(.1,.3,1500,'bandpass')},
+  paper:s=>s.noise(.22,.18,4500,'highpass'),
+  drum:s=>{for(let i=0;i<8;i++) s.tone(85,.12,'sine',.4,50,i*.16)},
+  sneaky:s=>[392,330,294,262,294].forEach((f,i)=>s.tone(f,.14,'triangle',.17,null,i*.2)),
+  radar:s=>s.tone(1250,.6,'sine',.12,1180),
+  freeze:s=>[2000,2400,2800,3300,3800].forEach((f,i)=>s.tone(f,.45,'sine',.05,null,i*.07)),
+  alarm:s=>[0,.3,.6].forEach(t=>s.tone(880,.22,'square',.09,660,t)),
+  clang:s=>{s.tone(1500,.6,'square',.07,1400); s.tone(2350,.5,'sine',.08)},
+  lock:s=>{s.tone(650,.05,'square',.2); s.tone(320,.08,'square',.2,null,.09)},
+  thud:s=>s.tone(75,.3,'sine',.55,35),
+};
 
-  <!-- استدعاء ملفات البيانات ومولد الرسوم ومحرك الصفحة -->
-  <script src="js/data.js"></script>
-  <script src="js/rugs.js"></script>
-  <script src="app.js"></script>
+/* =========================================================
+   2) HELPERS FOR BUILDING SCENE PROPS
+   ========================================================= */
+const pos=(l,t,d)=>`left:${l}%;top:${t}%;--d:${d}s;`;
+const P=(l,b,c,d=0,s=1,cls='pop')=>`<div class="person a ${cls}" style="left:${l}%;bottom:${b}%;--c:${c};--d:${d}s;scale:${s}"><div class="h"><i></i><i></i></div><div class="b"></div></div>`;
+const chip=(t,l,tp,d,cls='')=>`<div class="chip a fadeUp ${cls}" style="${pos(l,tp,d)}">${t}</div>`;
+const bub=(t,l,tp,d,cls='')=>`<div class="bubble a pop ${cls}" style="${pos(l,tp,d)}">${t}</div>`;
+const thought=(t,l,tp,d)=>`<div class="bubble thought a pop" style="${pos(l,tp,d)}">${t}</div>`;
+const emo=(e,l,tp,d,size=3,cls='a pop')=>`<div class="emo ${cls}" style="${pos(l,tp,d)}font-size:${size}em">${e}</div>`;
+const C={blue:'#4a7bd1',teal:'#2a9d8f',sand:'#e9c46a',coral:'#e76f51',violet:'#9b5de5',pink:'#f15bb5'};
+
+/* =========================================================
+   3) STATIONS & SCENES (full content of the slides)
+   ========================================================= */
+const STATIONS=[
+  {name:'المقدمة',icon:'🎬'},
+  {name:'التعريف والأسماء',icon:'🪪'},
+  {name:'السمات النفسية وردود الفعل',icon:'🧠'},
+  {name:'السلوك الاجتماعي والتواصلي',icon:'🗣️'},
+  {name:'التجسس والتكتيكات الدفاعية',icon:'🕵️'},
+  {name:'أسلوب العمل والتعامل اليومي',icon:'💼'},
+  {name:'الخاتمة',icon:'🏁'}
+];
+const ORD=['','الأولى','الثانية','الثالثة','الرابعة','الخامسة'];
+
+const SCENES=[
+/* ---------------- INTRO ---------------- */
+{st:0,title:'أنماط الشخصية في بيئة العمل',mood:'suspicious',
+ narr:'مرحباً بك في رحلة تفاعلية للتعرف على أحد أنماط الشخصية في بيئة العمل: «الشخصية الشكّاكة». تابع معنا خمس محطات نكتشف فيها تعريفها، وسماتها النفسية، وسلوكها الاجتماعي، وتكتيكاتها الدفاعية، وأسلوبها في العمل اليومي.',
+ sfx:[['whoosh',200],['sneaky',1100]],
+ script:{act:'تدخل الشخصية من طرف المسرح الأيمن، تتوقف فجأة، وتتلفت يميناً ويساراً، ثم تحدّق في المشاهد بريبة بينما تطفو علامات الاستفهام حولها.',
+  exp:'حاجب مرفوع وآخر منخفض، جفون نصف مغلقة، عينان تتحركان بسرعة يميناً ويساراً، رأس يميل مع كل نظرة.',
+  sfx:'صوت انزلاق (Whoosh) مع ظهور العنوان + نغمة تسلّل خافتة (Pizzicato).',
+  cap:'أنماط الشخصية في بيئة العمل — الشخصية الشكّاكة'},
+ front:()=>`<div class="center"><div class="title-card a pop" style="--d:.3s"><small>أنماط الشخصية في بيئة العمل</small><h1>الشخصية الشكّاكة</h1><p>رحلة تفاعلية في خمس محطات 🔍</p></div></div>`+
+   [[6,12,.8],[50,8,1.2],[10,74,1.6],[46,70,2],[56,40,2.4]].map(([l,t,d])=>`<span class="qm" style="${pos(l,t,d)}">?</span>`).join('')},
+
+/* ---------------- STATION 1 ---------------- */
+{st:1,title:'الأسماء: المرتابة، الشكّاكة، سيئة الظن',mood:'suspicious',
+ narr:'«الشخصية المرتابة»، ومن أسمائها: «الشكّاكة» أو «سيئة الظن». ثلاثة أسماء لنمط واحد.',
+ sfx:[['stamp',700],['stamp',1700],['stamp',2700],['ding',3400]],
+ script:{act:'تقف الشخصية متوجسة، وكلما هبط ختم أحمر على الشاشة باسم من أسمائها انتفضت والتفتت نحوه بحدة.',
+  exp:'عينان ضيقتان تتابعان كل ختم، حاجب مرتفع باستغراب، فم مستقيم مشدود.',
+  sfx:'ثلاث ضربات ختم ثقيلة (Stamp) متتابعة، ثم رنين خفيف (Ding) عند ظهور العدسة.',
+  cap:'من أسمائها: المرتابة • الشكّاكة • سيئة الظن'},
+ front:()=>chip('🪪 من أسمائها:',4,5,.2,'gold big')+
+   `<div class="stamp" style="${pos(6,24,.7)}--r:-8deg">المُرتابة</div>`+
+   `<div class="stamp" style="${pos(28,44,1.7)}--r:6deg">الشكّاكة</div>`+
+   `<div class="stamp" style="${pos(6,66,2.7)}--r:-4deg">سيئة الظن</div>`+
+   emo('🔍',44,20,3.4,3.2)},
+
+{st:1,title:'المراد بالشخصية المرتابة',mood:'spy',
+ narr:'المراد بها: من الناس من فيه علّة في شخصيته مدارها حول الإفراط والمبالغة في إساءة الظن والشك في الآخرين، واليقظة والحذر منهم.',
+ sfx:[['pop',300],['pop',600],['pop',900],['pop',1200],['sneaky',1500],['ding',3000],['ding',3800],['ding',4600]],
+ script:{act:'يظهر الزملاء واحداً تلو الآخر، فيرفع المرتاب عدسته المكبّرة ويمسح بها الوجوه، وتظهر علامة استفهام فوق رأس كل زميل.',
+  exp:'عين مغمضة نصف إغماضة وأخرى مفتوحة خلف العدسة، حاجب مرفوع بشدة، فم مزموم.',
+  sfx:'فرقعات خفيفة لظهور الزملاء، نغمة تحقيق متسللة، رنين مع كل عبارة تعريفية.',
+  cap:'علّة مدارها: الإفراط في إساءة الظن • الشك في الآخرين • اليقظة والحذر منهم'},
+ front:()=>[4,16,28,40].map((l,i)=>P(l,14,[C.blue,C.teal,C.sand,C.coral][i],.3+i*.3)).join('')+
+   [4,16,28,40].map((l,i)=>`<span class="qm s" style="${pos(l+1.6,48,1.4+i*.3)}">?</span>`).join('')+
+   `<div class="lens scan" style="top:40%;--d:1.2s"></div>`+
+   chip('الإفراط والمبالغة في إساءة الظن',3,6,3,'red')+chip('الشك في الآخرين',3,17,3.8)+chip('اليقظة والحذر منهم',25,17,4.6)},
+
+{st:1,title:'درجات متفاوتة في الشدة',mood:[['suspicious',0],['sweat suspicious',3000],['angry',5600]],
+ narr:'وهؤلاء في درجات متفاوتة من حيث شدة العلة فيهم؛ فقد تكون في بعضهم علة خفيفة (سوء ظن يسير)، وفي آخرين علة شديدة تكفي لتشخيصهم بأن لديهم اضطراباً في الشخصية، وهو «اضطراب الشك والريبة».',
+ sfx:[...Array.from({length:12},(_,i)=>['tick',1000+i*400]),['alarm',5800]],
+ script:{act:'يظهر مقياس شدة يمتلئ تدريجياً من الأخضر إلى الأحمر، ومع تقدم المؤشر يزداد توتر الشخصية حتى تنفجر غضباً عند الطرف الأحمر.',
+  exp:'تبدأ بريبة هادئة، ثم يتصبب العرق، ثم تحمرّ الوجه وتنعقد الحواجب على شكل (V) ويهتز الرأس.',
+  sfx:'دقات ساعة متسارعة (Tick) مع حركة المؤشر، ثم صفارة إنذار عند بلوغ «اضطراب الشك والريبة».',
+  cap:'من «سوء ظن يسير» ← إلى «اضطراب الشك والريبة»'},
+ front:()=>`<div class="meter a fadeUp" style="left:4%;top:18%;width:54%;--d:.3s">
+   <div class="m-title">📊 شدة العلة تتفاوت من شخص لآخر</div>
+   <div class="m-faces"><span>🙂</span><span>😒</span><span>😠</span><span>🤯</span></div>
+   <div class="m-bar"><div class="m-fill"></div><div class="m-needle"></div></div>
+   <div class="m-labels"><span>🟢 علة خفيفة<br><b>سوء ظن يسير</b></span><span>🔴 علة شديدة<br><b>اضطراب الشك والريبة</b></span></div></div>`+
+   chip('⚠️ قد تكفي لتشخيص «اضطراب في الشخصية»',10,74,6,'red')},
+
+/* ---------------- STATION 2 ---------------- */
+{st:2,title:'تغليب سوء الظن',mood:[['suspicious',0],['spy',2000],['suspicious',4800]],
+ narr:'تغليب سوء الظن في معظم الأوقات ومع معظم الأشخاص، في أقوالهم وأفعالهم، دون أن يكون لذلك ما يدعمه من الواقع، وإنما بسبب علة في الشخص نفسه، وقد يزيد سوء الظن إذا كان هناك ما يثيره ولو بدرجة يسيرة.',
+ sfx:[['pop',800],['sneaky',2000],['pop',3400],['pop',3800],['pop',4200],['stamp',5000],['ding',5800]],
+ script:{act:'يلقي زميل التحية ببراءة «صباح الخير!»، فيتجمد المرتاب ويحدّق فيه طويلاً، ثم تظهر فقاعة تفكير تحمل تأويلاً سيئاً للتحية.',
+  exp:'نظرة جانبية حادة، عين تضيق خلف العدسة، شفاه مزمومة، ثم عودة لتلفّت العينين بقلق.',
+  sfx:'فرقعة ظهور الفقاعة، نغمة تسلل عند التفكير، ختم «لا دليل من الواقع».',
+  cap:'سوء ظن في معظم الأوقات ومع معظم الأشخاص — بلا دليل من الواقع'},
+ front:()=>P(8,14,C.teal,.2)+bub('صباح الخير! 😊',4,44,.8)+
+   thought('صباح الخير؟! 🤨<br>ماذا يقصد بها؟ لا بدّ أنه يخطط لشيء...',30,6,2)+
+   chip('🕐 معظم الأوقات',3,5,3.4)+chip('👥 معظم الأشخاص',3,14,3.8)+chip('💬 أقوالهم وأفعالهم',3,23,4.2)+
+   `<div class="stamp sm" style="${pos(24,58,5)}--r:-6deg">✖ لا دليل من الواقع</div>`+
+   chip('السبب: علّة في الشخص نفسه.. وتزيد مع أيّ مثير ولو يسير',4,80,5.8,'gold')},
+
+{st:2,title:'المبالغة في الحذر وتوقّع الخيانة',mood:'suspicious sweat',
+ narr:'المبالغة في الحذر والترقب والتوجس والحيطة من الناس، مع عدم الثقة فيهم، وتوقع الإهانة منهم أو الغدر أو الخيانة أو الأذى أو نحو ذلك.',
+ sfx:[['radar',500],['pop',1200],['pop',2000],['radar',2600],['pop',2800],['pop',3600],['buzz',4400],['radar',5000]],
+ script:{act:'يتحول المكتب إلى شاشة رادار، والشخصية تراقب النقاط الحمراء (الزملاء) وكأنها أهداف معادية، وتظهر التهديدات المتوقعة حول الرادار.',
+  exp:'عرق يتصبب، عينان تتنقلان بلا توقف، رأس يلتفت يميناً ويساراً بحذر شديد.',
+  sfx:'نبضات رادار متكررة (Ping)، فرقعة مع كل تهديد، طنين منخفض عند «انعدام الثقة».',
+  cap:'حذر • ترقّب • توجّس • حيطة — توقّع: الإهانة، الغدر، الخيانة، الأذى'},
+ front:()=>chip('حذر • ترقّب • توجّس • حيطة',14,3,.4,'gold')+
+   `<div class="radar a pop" style="${pos(16,14,.2)}"><div class="sweep"></div>
+     <span class="blip" style="left:30%;top:30%;--bd:.2s"></span><span class="blip" style="left:65%;top:40%;--bd:.9s"></span>
+     <span class="blip" style="left:45%;top:70%;--bd:1.5s"></span><span class="blip" style="left:22%;top:58%;--bd:2s"></span></div>`+
+   chip('⚠️ إهانة',2,22,1.2,'red big')+chip('🗡️ غدر',44,22,2,'red big')+chip('🎭 خيانة',2,52,2.8,'red big')+chip('💥 أذى',44,52,3.6,'red big')+
+   chip('🚫 عدم الثقة في الناس',17,68,4.4,'big')},
+
+{st:2,title:'حساس جداً!',mood:[['suspicious',0],['shock',1700],['angry',2400]],
+ narr:'حساس جداً! فلو أخطأت عليه بدون عمد قد يتضارب معك!',
+ sfx:[['whoosh',100],['whoosh',1000],['crash',1700],['pop',2100],['buzz',2400],['drum',3400]],
+ script:{act:'يمر زميل مسرعاً فيتعثر وينسكب كوب القهوة نحو المرتاب، يعتذر الزميل فوراً، لكن المرتاب ينتفض ويحمرّ وجهه ويستعد للمواجهة.',
+  exp:'صدمة (عينان مفتوحتان وفم دائري) ← ثم غضب عارم: حواجب حادة، أسنان مطبقة، وجه أحمر، علامة غضب 💢 واهتزاز.',
+  sfx:'خطوات سريعة (Whoosh)، صوت ارتطام وانسكاب (Crash)، طنين غضب، ثم قرع طبول التصعيد.',
+  cap:'حساس جداً.. فلو أخطأت عليه بدون عمد قد يتضارب معك!'},
+ front:()=>P(14,14,C.sand,0,1,'slideInL')+`<div class="cup" style="left:30%;top:52%">☕</div>`+
+   emo('💥',50,44,1.7,4)+bub('آسف! لم أقصد 😅',6,42,2.1)+
+   `<div class="shout a pop" style="${pos(52,6,2.4)}font-size:3.4em">!!</div>`+
+   chip('حساس جداً.. فلو أخطأت عليه بدون عمد قد يتضارب معك!',4,6,3.4,'red big')},
+
+{st:2,title:'تضخيم الانتقادات وكتمان الأحقاد',mood:[['suspicious',0],['hurt',1000],['angry',2300],['stern',5400]],
+ narr:'المبالغة في التأثر بانتقادات الآخرين وتضخيمها وتحميلها ما لا تحتمل من المعاني السيئة، مع المسارعة في الرد عليها والدفاع عن النفس قولاً أو فعلاً، وإن لم يستطع الدفاع كتم الحقد في نفسه ولا يحاول تناسيه، وإنما يحتفظ به إلى الظرف المناسب، مهما كان الانتقاد يسيراً أو تافهاً.',
+ sfx:[['paper',400],['heartbeat',1200],['buzz',2300],['gavel',3500],['lock',5900],['tick',6700],['tick',7100],['tick',7500]],
+ dur:20000,
+ script:{act:'تظهر ورقة ملاحظة صغيرة لطيفة، فتتضخم أمام عينيه حتى تصبح «إهانة لا تُغتفر»، فيرد بعنف، ثم يطوي الورقة ويقفل عليها في «خزنة الأحقاد» بانتظار الوقت المناسب.',
+  exp:'تأثر وجرح (حواجب منكسرة وعرق) ← غضب واحمرار ← ثم صرامة باردة وذراعان متشابكتان وهو يقفل الخزنة.',
+  sfx:'حفيف ورق، دقات قلب متوترة، طنين غضب، ضربة مطرقة للرد، صوت قفل معدني، دقات ساعة الانتظار.',
+  cap:'تضخيم الانتقاد ← رد فوري ← وإلا: كتم الحقد إلى الظرف المناسب'},
+ front:()=>`<div class="note" style="${pos(8,16,0)}animation:pop .5s .4s both,vanish .4s 2.1s forwards">📝 ملاحظة بسيطة:<br>«الخط في تقريرك صغير قليلاً»</div>`+
+   `<div class="note bad" style="${pos(6,14,0)}--tx:22em;--ty:14em;animation:pop .6s 2.3s both,shake .1s 2.9s 6 alternate,intoSafe .9s 5.6s forwards">😡 إهانة لا تُغتفر!!</div>`+
+   chip('تحميلها ما لا تحتمل من المعاني السيئة',30,4,2.8,'red')+
+   chip('↩️ مسارعة في الرد والدفاع عن النفس قولاً أو فعلاً',3,46,3.5)+
+   chip('🤐 وإن عجز: كتم الحقد ولا يتناساه',3,58,4.6)+
+   `<div class="safe a pop" style="${pos(42,54,5)}"><b>🔒</b>خزنة الأحقاد</div>`+
+   chip('⏳ يحتفظ به إلى «الظرف المناسب»',22,80,6.6,'gold')+
+   chip('مهما كان الانتقاد يسيراً أو تافهاً!',3,70,7.4,'red')},
+
+/* ---------------- STATION 3 ---------------- */
+{st:3,title:'إسقاط الأخطاء على الآخرين',mood:'smug',
+ narr:'إسقاط أخطائه وهفواته على غيره؛ فإذا وقع الخطأ وجّه أصابع الاتهام إلى الآخرين.',
+ sfx:[['pop',500],['boing',2200],['boing',3400],['boing',4600],['ding',5400]],
+ script:{act:'تخرج من يد المرتاب كرة حمراء مكتوب عليها «الخطأ»، فيقذفها بخفة لترتد من زميل إلى آخر، ومع كل ارتداد يشير بإصبعه: «أنت السبب!».',
+  exp:'ابتسامة جانبية متعالية، رأس مرفوع للخلف، عينان تنظران بطرف خفي.',
+  sfx:'صوت نابض (Boing) مع كل ارتداد للكرة، ورنين ختامي.',
+  cap:'إسقاط أخطائه وهفواته على غيره'},
+ front:()=>P(4,14,C.blue,.2)+P(18,14,C.violet,.35)+P(32,14,C.pink,.5)+
+   bub('ليس خطئي! 🙅‍♂️',44,8,.5,'r')+
+   `<div class="ball" style="animation:ballPass 3.6s 1s cubic-bezier(.4,0,.6,1) both">❌ الخطأ</div>`+
+   chip('👉 أنت السبب!',30,26,2.2,'red')+chip('👉 بسببه هو!',16,26,3.4,'red')+chip('👉 بل بسببها!',2,26,4.6,'red')+
+   chip('إسقاط أخطائه وهفواته على غيره',3,5,5.4,'gold big')},
+
+{st:3,title:'المراء والعناد: «رأسه ناشف»',mood:[['suspicious',0],['angry',1600]],
+ narr:'الإكثار من المراء والجدال والخصومة والتحدي والعناد، مع الاعتداد بالرأي، مما يجعل التفاهم معه أو إقناعه في بعض الأمور أمراً صعباً، ولا سيما إذا كان أمام الآخرين، وكما يقال: (رأسه ناشف).',
+ sfx:[['pop',600],['buzz',1600],['buzz',2200],['buzz',2800],['boing',3400],['boing',3900],['boing',4400],['thud',5000],['pop',5800]],
+ dur:17000,
+ script:{act:'يقترح زميل فكرة بهدوء، فيرد المرتاب بسيل من الرفض، وتُقذف نحوه «الحجج» فترتد عن رأسه كأنها تصطدم بصخرة، بينما يتجمع المتفرجون.',
+  exp:'غضب وعناد: حواجب منعقدة، أسنان مطبقة، رأس ثابت لا يلتفت، اهتزاز تحدٍّ.',
+  sfx:'طنين رفض مع كل «لا!»، أصوات ارتداد (Boing) للحجج، ضربة صخرية ثقيلة (Thud) عند «رأسه ناشف».',
+  cap:'مراء • جدال • خصومة • تحدٍّ • عناد — (رأسه ناشف)'},
+ front:()=>P(6,14,C.sand,.2)+bub('ما رأيك أن نجرب طريقة أخرى؟ 🤔',2,40,.6)+
+   `<div class="shout a pop" style="${pos(50,4,1.6)}">لا!</div>`+
+   `<div class="shout a pop" style="${pos(36,16,2.2)}">مستحيل!</div>`+
+   `<div class="shout a pop" style="${pos(40,30,2.8)}font-size:1.8em">رأيي هو الصحيح!</div>`+
+   ['حُجّة','دليل','منطق'].map((t,i)=>`<div class="arg" style="top:${52+i*4}%;--d:${3.4+i*.5}s">${t}</div>`).join('')+
+   `<div class="rock a pop" style="${pos(4,6,5)}">🪨 «رأسه ناشف»</div>`+
+   chip('مراء • جدال • خصومة • تحدٍّ • عناد • اعتداد بالرأي',3,22,4.2)+
+   P(30,3,C.violet,5.6,.55)+P(36,3,C.teal,5.8,.55)+P(42,3,C.blue,6,.55)+
+   chip('👀 ولا سيما أمام الآخرين',28,72,6.4,'gold')},
+
+{st:3,title:'العالم غابة: تصوّر العداء والصراع',mood:'suspicious sweat',
+ narr:'المبالغة في تصور العداء والتنافس والتحدي، وكأنه يرى العالم غابة يأكل القوي فيها الضعيف.',
+ sfx:[['drum',200],['whoosh',1000],['whoosh',1600],['thud',3500],['thud',4000],['thud',4500]],
+ script:{act:'تنمو الأشجار من أرض المكتب فيتحول إلى غابة، وتمر سمكة صغيرة تطاردها سمكة قرش ضخمة، والمرتاب يراقب متوجساً وكأنه في ساحة صراع.',
+  exp:'عرق وتوتر، عينان تتلفتان بسرعة، رأس منخفض قليلاً كمن يتوقع الهجوم.',
+  sfx:'طبول قبلية متصاعدة، اندفاع مائي (Whoosh) لمرور الأسماك، ضربات ثقيلة مع كل كلمة.',
+  cap:'العالم في نظره غابة.. يأكل القوي فيها الضعيف'},
+ back:()=>`<div class="jungle-tint"></div>`+[[0,.1,1],[9,.25,.8],[18,.4,1.1],[28,.2,.9],[38,.35,1.05],[48,.5,.85]].map(([l,d,s])=>`<div class="tree a pop" style="left:${l}%;--d:${d}s;scale:${s}"></div>`).join(''),
+ front:()=>`<div class="fish" style="top:30%;animation-delay:1s">🐟</div><div class="fish big" style="top:24%;animation-delay:1.5s">🦈</div>`+
+   chip('🌳 العالم في نظره غابة.. يأكل القوي فيها الضعيف',3,4,2.5,'gold big')+
+   chip('⚔️ عداء',4,60,3.5,'red big')+chip('🏁 تنافس',22,64,4,'red big')+chip('🔥 تحدٍّ',40,60,4.5,'red big')},
+
+{st:3,title:'حب الزعامة والسيطرة',mood:'leader',
+ narr:'السعي إلى الزعامة والسيادة والسيطرة والقيادة والتمكن من تدبير الأمور، مع الأنفة والاستنكاف أن يكون مرؤوساً لأنداده وأقرانه.',
+ sfx:[['pop',200],['pop',400],['pop',600],['fanfare',1000],['pop',1800],['pop',2300],['pop',2800],['pop',3300],['pop',3800],['gavel',4800]],
+ script:{act:'تظهر درجات سلّم تتصاعد، والزملاء على الدرجات السفلى، بينما يعتلي المرتاب القمة وينبت تاج ذهبي فوق رأسه ويتطلع إلى كرسي القيادة.',
+  exp:'رأس مرفوع بتعالٍ، ابتسامة جانبية، جفون نصف مسدلة بنظرة استعلاء.',
+  sfx:'فرقعات لنمو الدرجات، نفير ملكي (Fanfare) عند ظهور التاج، ضربة مطرقة حاسمة.',
+  cap:'زعامة • سيادة • سيطرة • قيادة — ويأنف أن يكون مرؤوساً لأقرانه'},
+ front:()=>[[2,12,.2],[16,22,.4],[30,32,.6],[44,44,.8]].map(([l,h,d])=>`<div class="step" style="left:${l}%;height:${h}%;--d:${d}s"></div>`).join('')+
+   P(5,22,C.blue,1.2,.7)+P(19,32,C.teal,1.4,.7)+P(33,42,C.sand,1.6,.7)+emo('🪑👑',46,26,1,2.6)+
+   ['زعامة','سيادة','سيطرة','قيادة','تدبير الأمور'].map((t,i)=>chip(t,2+i*10.5,4,1.8+i*.5,'gold')).join('')+
+   chip('🙅‍♂️ يأنف ويستنكف أن يكون مرؤوساً لأنداده وأقرانه',3,16,4.8,'red big')},
+
+{st:3,title:'السعي لإثبات الذات',mood:'smug',
+ narr:'السعي إلى إثبات ذاته ووجوده أمام الآخرين.',
+ sfx:[['drum',200],['fanfare',1600],['ding',2600],['ding',3200]],
+ script:{act:'يسقط ضوء مسرحي (Spotlight) على المرتاب، فيرفع يده معلناً حضوره، والزملاء في الظلام يلتفتون إليه بأعين واسعة.',
+  exp:'رأس مرفوع، صدر منفوخ، ابتسامة فخر جانبية، نظرة تبحث عن الإعجاب.',
+  sfx:'قرع طبول تشويق، ثم نفير احتفالي عند ظهور الشعار، ولمعان (Ding) للنجوم.',
+  cap:'السعي إلى إثبات ذاته ووجوده أمام الآخرين'},
+ back:()=>`<div class="spot"></div>`,
+ front:()=>P(4,10,C.blue,.6,.85)+P(15,10,C.teal,.8,.85)+P(26,10,C.violet,1,.85)+
+   emo('👀',5,52,2,1.8)+emo('👀',16,52,2.2,1.8)+emo('👀',27,52,2.4,1.8)+
+   bub('أنا هنا! انظروا إليّ 🙋‍♂️',38,6,1.6,'r big')+
+   chip('⭐ إثبات الذات',3,8,2.6,'gold big')+chip('📣 إثبات الوجود أمام الآخرين',3,22,3.2,'gold big')+
+   [[64,12,1.8],[92,22,2.1],[68,62,2.4],[94,58,2.7]].map(([l,t,d])=>`<span class="spark" style="${pos(l,t,d)}">✨</span>`).join('')},
+
+/* ---------------- STATION 4 ---------------- */
+{st:4,title:'الفضول والتجسس مقابل التكتّم الشديد',mood:[['spy',0],['suspicious sweat',4500]],
+ narr:'المبالغة في التعرف على ما في نفوس الآخرين وما قد يخفونه عنه من الأمور المهمة، وقد يتطفل على خصوصياتهم ويتجسس عليهم أو يحتال عليهم ليعرف ما عندهم، وفي المقابل يميل هو إلى السرية والتكتم بدرجة مبالغ فيها، ويتوهم أن المعلومات التي يخفيها قد تُستخدم ضده يوماً ما.',
+ sfx:[['sneaky',300],['tick',1800],['tick',2000],['pop',2400],['pop',2800],['pop',3200],['lock',3600],['heartbeat',4600]],
+ dur:20000,
+ script:{act:'يتسلل المرتاب بعدسته ويختلس النظر من خلف جدار المكتب إلى زميلين يتهامسان وإلى ملفاتهم، ثم يعود مسرعاً ليقفل ملفاته هو بقفل محكم.',
+  exp:'عين خلف العدسة متسعة، والأخرى مغمضة بتركيز، حاجب مرتفع جداً ← ثم عرق وقلق وهو يخفي أوراقه.',
+  sfx:'موسيقى تسلل خفيفة على أطراف الأصابع، دقات خافتة، صوت قفل معدني، نبض قلب قلق.',
+  cap:'يتجسس على خصوصيات الآخرين.. ويبالغ في كتمان أسراره'},
+ back:()=>`<div class="wall a fadeUp" style="--d:.1s"></div>`,
+ front:()=>P(4,14,C.coral,.2)+P(16,14,C.teal,.3)+bub('🤫 سرّ بيننا...',2,42,.6)+
+   `<div class="lockbox a pop" style="${pos(8,18,1)}font-size:1.1em">📂<b>خصوصيات الآخرين</b></div>`+
+   emo('👁️',32,14,1.8,2.4,'peek')+
+   chip('تطفّل',2,4,2.4,'red')+chip('تجسّس',12,4,2.8,'red')+chip('احتيال ليعرف ما عندهم',23,4,3.2,'red')+
+   `<div class="lockbox a pop" style="${pos(42,56,3.6)}">🔒<b>ملفاتي</b><small>سرّي للغاية</small></div>`+
+   chip('🤐 سرّية وتكتّم مبالغ فيهما',38,44,4.1,'gold')+
+   thought('قد تُستخدم ضدي يوماً ما! 😰',38,22,4.6)},
+
+{st:4,title:'«إذا ساء فعل المرء ساءت ظنونه»',mood:'suspicious',
+ narr:'وكما قال الشاعر أبو الطيب المتنبي: إذا ساء فعلُ المرء ساءت ظنونه ... وصدّق ما يعتاده من توهّم.',
+ sfx:[['paper',300],['ding',1200],['ding',3000],['pop',4800]],
+ script:{act:'تنفتح مخطوطة قديمة ببطء، ويُكتب بيت الشعر عليها حرفاً حرفاً بخط عربي جميل، والمرتاب ينظر إليها متوجساً كأنها تتحدث عنه.',
+  exp:'نظرات جانبية مرتابة، رأس يميل ببطء، فم مستقيم.',
+  sfx:'صوت فتح لفافة ورقية، رنين هادئ مع ظهور كل شطر، موسيقى عود خفيفة مقترحة في الخلفية.',
+  cap:'إذا ساء فعلُ المرء ساءت ظنونه ... وصدّق ما يعتاده من توهّم'},
+ front:()=>`<div class="center"><div class="scroll"><div class="verse" style="--d:1.2s">إذا ساءَ فِعلُ المَرءِ ساءَت ظُنونُهُ</div><div class="verse" style="--d:3s">وَصَدَّقَ ما يَعتادُهُ مِن تَوَهُّمِ</div><div class="poet a fadeUp" style="--d:4.8s">— أبو الطيب المتنبي</div></div></div>`+
+   chip('📜 سوء الفعل يورث سوء الظن بالناس',14,82,5.6,'gold')},
+
+{st:4,title:'جمع الإدانات والأدلة ضد الخصوم',mood:'spy',
+ narr:'الحرص على جمع الإدانات من أقوال وأفعال تنفعه ضد خصومه، وقد يحتفظ بها مدة طويلة، ويبالغ في الاستناد إليها والاستشهاد بها وتكثيرها.',
+ sfx:[...Array.from({length:6},(_,i)=>['paper',800+i*700]),...Array.from({length:6},(_,i)=>['tick',2400+i*700]),['stamp',5600]],
+ dur:16000,
+ script:{act:'تتطاير أوراق صغيرة تحمل «أدلة» تافهة (تأخر 5 دقائق، نظرة غريبة...) وتسقط واحدة تلو الأخرى داخل «ملف الإدانات»، بينما يتصاعد عدّاد الأدلة بسرعة.',
+  exp:'عدسة مكبرة أمام العين، تركيز شديد، ابتسامة خفية مع كل دليل جديد.',
+  sfx:'حفيف أوراق متتابع، دقات عدّاد سريعة، ختم أرشيف عند «يحتفظ بها مدة طويلة».',
+  cap:'جمع الإدانات ← الاحتفاظ بها طويلاً ← الاستشهاد بها وتكثيرها'},
+ front:()=>`<div class="dossier a pop" style="${pos(12,56,.3)}">🗂️<b>ملف الإدانات</b><small>ضد الخصوم</small></div>`+
+   `<div class="counter a fadeUp" style="${pos(34,60,.6)}">عدد الأدلة: <b id="evc">0</b></div>`+
+   ['قال كذا في اجتماع 2019','تأخّر 5 دقائق','نظرة غريبة!','رسالة بلا تحيّة','ضحك حين أخطأتُ','لم يدعُني للغداء'].map((t,i)=>{
+     const l=[2,20,38][i%3], tp=[6,22][Math.floor(i/3)], d=.8+i*.7;
+     return `<div class="paper" style="${pos(l,tp,d)}--tx:${((16-l)*.59).toFixed(1)}em;--ty:${((60-tp)*.33).toFixed(1)}em;animation:pop .5s ${d}s both,fall .8s ${d+1.6}s forwards">📄 ${t}</div>`}).join('')+
+   chip('📅 يحتفظ بها مدة طويلة',34,74,5.6,'gold')+chip('📢 يبالغ في الاستشهاد بها وتكثيرها',2,40,6.4,'red')},
+
+/* ---------------- STATION 5 ---------------- */
+{st:5,title:'استغلال الأنظمة واللوائح',mood:'smug',
+ narr:'الحرص على معرفة الأنظمة والقرارات، وكل ما يمكن أن يخدم أهدافه في خصوماته، ليدافع عن نفسه أو ليهاجم غيره.',
+ sfx:[['paper',300],['clang',1800],['clang',2600],['gavel',3600]],
+ script:{act:'يفتح المرتاب كتاب «الأنظمة واللوائح» الضخم، فيخرج منه درع يحتمي به وسيف يلوّح به نحو خصومه.',
+  exp:'ابتسامة ماكرة، رأس مرفوع، عينان تلمعان بثقة المنتصر.',
+  sfx:'تقليب صفحات، صليل معدني للسيف والدرع (Clang)، ضربة مطرقة القاضي.',
+  cap:'الأنظمة والقرارات: 🛡️ درع للدفاع عن نفسه و⚔️ سيف لمهاجمة غيره'},
+ front:()=>`<div class="book a pop" style="${pos(19,16,.3)}"><span class="ic">📕</span><b>الأنظمة واللوائح<br>والقرارات</b></div>`+
+   `<div class="tool a pop" style="${pos(42,26,1.8)}"><span class="ic">🛡️</span><small style="color:#9ff0c2">للدفاع عن نفسه</small></div>`+
+   `<div class="tool a pop" style="${pos(2,26,2.6)}"><span class="ic">⚔️</span><small>لمهاجمة غيره</small></div>`+
+   chip('🎯 وكل ما يمكن أن يخدم أهدافه في خصوماته',8,70,3.6,'gold big')},
+
+{st:5,title:'الصرامة والجفاف العاطفي',mood:'stern',
+ narr:'المبالغة في الصرامة والشدة، مع ضعف مشاعر الحنان والمودة والرحمة، وتغليب العقل على العاطفة في معظم الأمور.',
+ sfx:[['pop',300],['pop',600],['freeze',1400],['thud',2700],['buzz',3700]],
+ script:{act:'يشبك المرتاب ذراعيه بصرامة، ويتجمد القلب أمامه ويتحول إلى الأزرق البارد مع تساقط الثلج، بينما يتوهج الدماغ، وتميل كفة الميزان بقوة نحو «العقل».',
+  exp:'وجه جامد بلا تعبير، حواجب مستقيمة منخفضة، فم خط مستقيم، ذراعان متشابكتان.',
+  sfx:'رنين جليدي متلألئ (Freeze)، ضربة ثقيلة عند ميل الميزان، طنين جاف.',
+  cap:'صرامة وشدة — ضعف الحنان والمودة والرحمة — العقل يغلب العاطفة'},
+ front:()=>`<div class="emo heartf" style="${pos(6,12,0)}">❤️</div>`+emo('❄️',4,8,1.6,1.6)+emo('❄️',16,30,1.9,1.4)+emo('❄️',2,34,2.2,1.2)+
+   `<div class="emo brain" style="${pos(34,10,0)}">🧠</div>`+
+   `<div class="balance a fadeUp" style="${pos(8,54,1.8)}"><div class="post"></div><div class="beam"><div class="pan l">🧠 العقل</div><div class="pan r">❤️ العاطفة</div></div></div>`+
+   chip('🧱 صرامة وشدة',22,4,3.7,'red')+chip('🥶 ضعف الحنان والمودة والرحمة',16,40,4.3)},
+
+{st:5,title:'المزاح: «مزح برزح»',mood:[['suspicious',0],['spy',1600],['angry',2600],['smug',4400]],
+ narr:'نادراً ما يميل إلى المزاح أو يرضى به في حقه، وغالباً ما يبحث فيه عن معنى خفي قد يكون الممازح أراد به إهانته، كما أنه هو إذا مازح فإنه يستثمر المزاح في إهانة غيره وانتقادهم ومماراتهم ونحو ذلك، كما يقال: (مزح برزح).',
+ sfx:[['pop',400],['sneaky',1600],['buzz',2600],['pop',4400],['thud',5400]],
+ dur:19000,
+ script:{act:'يلقي زميل نكتة بريئة، فيوجّه المرتاب عدسته نحو فقاعة الكلام ليفكّ «شفرتها»، فيجد فيها إهانة مزعومة ويغضب؛ ثم يرد بمزحة مليئة بالأشواك.',
+  exp:'تجهّم عند سماع النكتة ← تحقيق بالعدسة ← غضب ← ابتسامة ماكرة لاذعة عند مزاحه هو.',
+  sfx:'ضحكة قصيرة للزميل، نغمة تحقيق، طنين غضب، ثم ضربة «مزح برزح».',
+  cap:'يبحث في المزاح عن إهانة خفية.. وإذا مزح هو: «مزح برزح»'},
+ front:()=>P(6,14,C.teal,.2)+bub('هههه.. كانت مجرد نكتة! 😄',2,42,.4)+
+   chip('😐 نادراً ما يمزح أو يرضى بالمزاح في حقه',2,4,1,'big')+
+   `<div class="lens zoom" style="${pos(10,38,1.6)}"></div>`+
+   thought('🤨 معنى خفي: يقصد إهانتي!',36,8,2.6)+
+   `<div class="bubble thorn r a pop" style="${pos(38,32,4.4)}">😏 «أمزح معك فقط..» 🌵</div>`+
+   chip('🌵 «مزح برزح»: يستثمر المزاح في الإهانة والانتقاد والمماراة',20,64,5.4,'red big')},
+
+{st:5,title:'الإصغاء بحثاً عن المعنى الخفي',mood:'listen',
+ narr:'القدرة على الإصغاء والتركيز، مع البحث عن معنى خفي في نفس المتحدث، والمبالغة في تصور التآمر ضده والتحامل عليه.',
+ sfx:[['radar',600],['radar',1800],['pop',1000],['heartbeat',2400],['heartbeat',3400],['sneaky',4400]],
+ script:{act:'يضع المرتاب يده خلف أذنه، وتتدفق موجات الكلام من الزملاء نحوه، فيتحول «الكلام العادي» في ذهنه إلى «مؤامرة» و«تحامل»، وتظهر ظلال تتهامس خلفه.',
+  exp:'رأس مائل نحو مصدر الصوت، عينان تنظران جانباً بتركيز، أذن متوهجة، حاجب مرتفع.',
+  sfx:'موجات صوتية مكتومة، نبض قلب يتسارع، همسات متداخلة مقترحة، نغمة تشويق.',
+  cap:'إصغاء وتركيز ← بحث عن معنى خفي ← تصوّر التآمر والتحامل'},
+ back:()=>`<div class="shadowp" style="${pos(4,10,4.4)}">👥</div><div class="shadowp" style="${pos(40,8,4.8)}">👥</div>`,
+ front:()=>P(4,14,C.blue,.2)+P(16,14,C.coral,.3)+
+   [0,.7,1.4].map(d=>`<div class="wave" style="left:26%;top:56%;--d:${d+.6}s"></div>`).join('')+
+   chip('💬 كلام عادي',24,40,1,'big')+chip('🕸️ تآمر ضدي؟!',38,28,2.4,'red big')+chip('😤 تحامل عليّ!',34,48,3.4,'red big')+
+   chip('👂 إصغاء وتركيز + بحث عن معنى خفي في نفس المتحدث',2,4,.6,'gold')},
+
+{st:5,title:'التركيز على الهفوات وتجاهل الحسنات',mood:'spy',
+ narr:'التركيز على أخطاء الآخرين وعيوبهم وهفواتهم ونقصهم، واستخدام ذلك في المواجهة معهم، مع التغاضي عن حسناتهم.',
+ sfx:[['ding',300],['ding',500],['ding',700],['ding',900],['ding',1100],['ding',1300],['pop',1700],['sneaky',2200],['buzz',3400],['clang',5000]],
+ script:{act:'يقف زميل محاط بنجوم «الحسنات» الخضراء، وفي ثوبه بقعة حمراء صغيرة «هفوة»، فيسلّط المرتاب عدسته عليها وحدها، فتنطفئ الحسنات وتبهت.',
+  exp:'عدسة مكبرة، عين متسعة متلهفة، فم مزموم، ميلان للأمام كمن وجد كنزاً.',
+  sfx:'رنين متتابع لظهور الحسنات، نغمة تحقيق، طنين انطفاء الحسنات، صليل المواجهة.',
+  cap:'يُكبّر الهفوات والعيوب.. ويتغاضى عن الحسنات'},
+ front:()=>P(14,10,C.teal,.1,1.8)+
+   [[2,40],[28,40],[2,56],[30,58],[6,26],[26,26]].map(([l,t],i)=>`<div class="good" style="${pos(l,t,.3+i*.2)}">✨ حسنة</div>`).join('')+
+   `<div class="flaw a pop" style="${pos(20.5,74,1.7)}"></div>`+chip('هفوة',24,70,1.9,'red')+
+   `<div class="lens zoom" style="${pos(16.5,64,2.2)}"></div>`+
+   chip('🔎 التركيز على الأخطاء والعيوب والهفوات والنقص',2,4,3,'red big')+
+   chip('🙈 التغاضي عن الحسنات',38,30,3.8,'big')+chip('⚔️ استخدامها في المواجهة معهم',38,44,4.6,'gold')},
+
+{st:5,title:'الغيرة الشديدة وحب المنافسة',mood:'jealous',
+ narr:'شديد الغيرة جداً، ويحب المنافسة كثيراً.',
+ sfx:[['drum',600],['whoosh',1000],['whoosh',3500],['fanfare',6000]],
+ script:{act:'سباق في مضمار بين المرتاب وزميله نحو كأس الفوز؛ كلما تقدم الزميل اشتعلت نيران خضراء حول المرتاب واندفع بقوة ليتجاوزه.',
+  exp:'وجه مائل للخضرة، عينان تنظران جانباً نحو المنافس بحسد، فم متجهم وحواجب منعقدة.',
+  sfx:'طبول بداية السباق، اندفاع (Whoosh) عند التسارع، نفير عند خط النهاية.',
+  cap:'شديد الغيرة جداً 💚 — يحب المنافسة كثيراً 🏁'},
+ front:()=>`<div class="track a fadeUp" style="${pos(3,34,.2)}width:56%"><div class="lane"><div class="token me">😠<small>المرتاب</small></div></div><div class="lane"><div class="token other">🙂<small>زميله</small></div></div><div class="finish">🏆</div></div>`+
+   chip('💚 شديد الغيرة جداً',4,10,1.6,'green big')+chip('🏁 يحب المنافسة كثيراً',30,10,2.4,'gold big')+
+   `<span class="flames" style="${pos(56,40,0)}">🔥</span>`},
+
+/* ---------------- OUTRO ---------------- */
+{st:6,title:'خلاصة الرحلة',mood:[['suspicious',0],['smug',3500]],
+ narr:'انتهت الرحلة! تعرّفنا على الشخصية الشكّاكة: تعريفها وأسمائها، وسماتها النفسية وردود أفعالها، وسلوكها الاجتماعي والتواصلي، وتكتيكاتها الدفاعية، وأسلوبها في العمل اليومي. وفهمُ هذه الأنماط يساعدنا على التعامل معها بوعي وحكمة.',
+ sfx:[['pop',300],['pop',600],['pop',900],['pop',1200],['pop',1500],['fanfare',2000]],
+ script:{act:'تظهر بطاقات المحطات الخمس تباعاً كلوحة خلاصة، والمرتاب يتفحصها واحدة واحدة، ثم يومئ بابتسامة جانبية في النهاية.',
+  exp:'تلفّت مرتاب أولاً، ثم ابتسامة رضا متحفظة ورأس مرفوع.',
+  sfx:'فرقعة لكل بطاقة، ونفير ختامي.',
+  cap:'خلاصة المحطات الخمس'},
+ front:()=>`<div class="center"><div class="chip gold big a pop" style="position:static;--d:.1s">🏁 خلاصة الرحلة</div><div class="sum-grid">`+
+   STATIONS.slice(1,6).map((s,i)=>`<div class="sum-card a pop" style="--d:${.3+i*.3}s"><span>${s.icon}</span>المحطة ${ORD[i+1]}: ${s.name}</div>`).join('')+`</div></div>`}
+];
+
+/* onEnter hooks (e.g. counters) */
+SCENES.find(s=>s.title.startsWith('جمع الإدانات')).onEnter=()=>{ let n=0; const el=document.getElementById('evc'); let iv; const t=setTimeout(()=>{ iv=setInterval(()=>{ n+=Math.ceil(Math.random()*4); if(el) el.textContent=n; if(n>=147){ el.textContent='147+'; clearInterval(iv);} },70) },1000); return ()=>{clearTimeout(t);clearInterval(iv)} };
+
+/* =========================================================
+   4) PLAYER ENGINE
+   ========================================================= */
+const $=id=>document.getElementById(id);
+const stage=$('stage'), props=$('props'), propsBack=$('propsBack'), charMood=$('charMood'), charWrap=$('charWrap');
+let idx=0, playing=false, voiceOn=false, started=false, timers=[], autoTimer=null, cleanup=null, typeTimer=null, seen=new Set();
+
+function at(ms,fn){ timers.push(setTimeout(fn,ms)) }
+function clearAll(){ timers.forEach(clearTimeout); timers=[]; clearTimeout(autoTimer); clearInterval(typeTimer); if(cleanup){cleanup();cleanup=null} if('speechSynthesis' in window) speechSynthesis.cancel(); $('soundWave').classList.remove('on') }
+function setMood(m){ charMood.className=m.split(' ').map(x=>'mood-'+x).join(' ') }
+function durationOf(s){ return s.dur || Math.max(9000, s.narr.length*68+2500) }
+function toast(msg){ const t=$('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2600) }
+
+function buildNav(){
+  $('stations').innerHTML=STATIONS.map((s,i)=>`<button class="st-chip" data-st="${i}">${s.icon} ${i>0&&i<6?'المحطة '+ORD[i]:s.name}</button>`).join('');
+  $('stations').querySelectorAll('.st-chip').forEach(b=>b.onclick=()=>{ ensureStart(); goTo(SCENES.findIndex(s=>s.st==b.dataset.st)) });
+  $('dots').innerHTML=SCENES.map((s,i)=>`<button class="dot ${i>0&&SCENES[i-1].st!==s.st?'sep':''}" data-i="${i}" title="${s.title}" aria-label="${s.title}"></button>`).join('');
+  $('dots').querySelectorAll('.dot').forEach(b=>b.onclick=()=>{ ensureStart(); goTo(+b.dataset.i) });
+}
+
+function updateUI(){
+  const s=SCENES[idx], stObj=STATIONS[s.st];
+  const inSt=SCENES.filter(x=>x.st===s.st), pos=inSt.indexOf(s)+1;
+  $('stLabel').textContent=`${stObj.icon} ${s.st>0&&s.st<6?'المحطة '+ORD[s.st]+': ':''}${stObj.name}`;
+  $('scTitle').textContent=s.title;
+  $('counter').textContent=`المشهد ${idx+1} / ${SCENES.length}`;
+  $('sceneTag').textContent=`${stObj.icon} ${stObj.name} • ${pos}/${inSt.length}`;
+  $('spAct').textContent=s.script.act; $('spExp').textContent=s.script.exp; $('spSfx').textContent=s.script.sfx; $('spCap').textContent=s.script.cap;
+  document.querySelectorAll('.st-chip').forEach(b=>{ const n=+b.dataset.st; b.classList.toggle('active',n===s.st); b.classList.toggle('done',n<s.st) });
+  document.querySelectorAll('.dot').forEach((d,i)=>{ d.classList.toggle('active',i===idx); d.classList.toggle('seen',seen.has(i)&&i!==idx) });
+  $('prevBtn').disabled=idx===0; $('nextBtn').disabled=idx===SCENES.length-1;
+}
+
+function typeNarr(text){
+  const el=$('narr'); let i=0; el.innerHTML='<span class="cursor"></span>';
+  clearInterval(typeTimer);
+  typeTimer=setInterval(()=>{ i+=2; el.innerHTML=text.slice(0,i)+'<span class="cursor"></span>'; if(i>=text.length){ clearInterval(typeTimer); el.textContent=text } },28);
+  el.onclick=()=>{ clearInterval(typeTimer); el.textContent=text };
+}
+
+function getArabicVoice(){ const v=speechSynthesis.getVoices(); return v.find(x=>/^ar/i.test(x.lang)) }
+function speak(text,onEnd){
+  if(!('speechSynthesis' in window)){ onEnd&&onEnd(); return }
+  const parts=text.replace(/[«»()]/g,'').split(/(?<=[.!؟:؛…])\s+/).filter(Boolean);
+  const voice=getArabicVoice(); $('soundWave').classList.add('on');
+  parts.forEach((p,i)=>{ const u=new SpeechSynthesisUtterance(p); u.lang='ar-SA'; if(voice) u.voice=voice; u.rate=.95;
+    if(i===parts.length-1) u.onend=()=>{ $('soundWave').classList.remove('on'); onEnd&&onEnd() };
+    speechSynthesis.speak(u) });
+}
+
+function runTimebar(ms){
+  const bar=$('timebar').firstElementChild; bar.style.transition='none'; bar.style.width='0';
+  if(!playing||ms==null) return; void bar.offsetWidth; bar.style.transition=`width ${ms}ms linear`; bar.style.width='100%';
+}
+
+function scheduleAuto(){
+  clearTimeout(autoTimer);
+  if(!playing) { runTimebar(null); return }
+  if(idx>=SCENES.length-1){ autoTimer=setTimeout(()=>togglePlay(false), durationOf(SCENES[idx])); runTimebar(durationOf(SCENES[idx])); return }
+  if(voiceOn) { runTimebar(null); return } /* speech end will trigger next */
+  const d=durationOf(SCENES[idx]); runTimebar(d); autoTimer=setTimeout(next,d);
+}
+
+function render(){
+  const s=SCENES[idx]; seen.add(idx);
+  propsBack.innerHTML=s.back?s.back():''; props.innerHTML=s.front?s.front():'';
+  charWrap.classList.remove('enter'); void charWrap.offsetWidth; charWrap.classList.add('enter');
+  const moods=Array.isArray(s.mood)?s.mood:[[s.mood,0]];
+  moods.forEach(([m,t])=> t===0?setMood(m):at(t,()=>setMood(m)));
+  (s.sfx||[]).forEach(([n,t])=>at(t,()=>Sound.play(n)));
+  if(s.onEnter) cleanup=s.onEnter();
+  typeNarr(s.narr);
+  if(voiceOn) at(400,()=>speak(s.narr,()=>{ if(playing&&idx<SCENES.length-1) autoTimer=setTimeout(next,1500); else if(playing) togglePlay(false) }));
+  scheduleAuto(); updateUI();
+}
+
+function showStationCard(st,cb){
+  const card=$('stationCard'); $('scNum').textContent='المحطة '+ORD[st]; $('scIcon').textContent=STATIONS[st].icon; $('scName').textContent=STATIONS[st].name;
+  props.innerHTML=''; propsBack.innerHTML='';
+  card.classList.remove('show'); void card.offsetWidth; card.classList.add('show'); Sound.play('whoosh'); at(300,()=>Sound.play('ding'));
+  at(1700,()=>{ card.classList.remove('show'); cb() });
+}
+
+function goTo(i,force){
+  if(i<0||i>=SCENES.length) return;
+  const changed = force || SCENES[i].st!==SCENES[idx].st;
+  clearAll(); stage.classList.add('leaving');
+  setTimeout(()=>{
+    idx=i; stage.dataset.st=SCENES[i].st; updateUI(); stage.classList.remove('leaving');
+    if(changed && SCENES[i].st>0 && SCENES[i].st<6) showStationCard(SCENES[i].st,render); else render();
+  },350);
+}
+function next(){ if(idx<SCENES.length-1) goTo(idx+1) }
+function prev(){ if(idx>0) goTo(idx-1) }
+function replay(){ clearAll(); render() }
+function togglePlay(force){
+  playing = typeof force==='boolean'?force:!playing;
+  $('playBtn').textContent = playing?'⏸ إيقاف التشغيل':'▶ تشغيل تلقائي';
+  if(playing && idx>=SCENES.length-1 && force!==true){ goTo(0); return }
+  if(playing && voiceOn && !speechSynthesis.speaking){ speak(SCENES[idx].narr,()=>{ if(playing) autoTimer=setTimeout(next,1500) }); }
+  scheduleAuto();
+}
+function ensureStart(){ if(!started){ started=true; $('startOverlay').style.display='none'; Sound.init() } }
+
+/* ---------- Bind controls ---------- */
+$('startBtn').onclick=()=>{ ensureStart(); playing=true; $('playBtn').textContent='⏸ إيقاف التشغيل'; goTo(0,true) };
+$('nextBtn').onclick=()=>{ ensureStart(); next() };
+$('prevBtn').onclick=()=>{ ensureStart(); prev() };
+$('replayBtn').onclick=()=>{ ensureStart(); replay() };
+$('playBtn').onclick=()=>{ ensureStart(); togglePlay() };
+$('sfxBtn').onclick=e=>{ Sound.on=!Sound.on; e.currentTarget.classList.toggle('on',Sound.on); e.currentTarget.textContent=Sound.on?'🔊 المؤثرات':'🔇 المؤثرات' };
+$('ttsBtn').onclick=e=>{
+  if(!('speechSynthesis' in window)){ toast('المتصفح لا يدعم القراءة الصوتية'); return }
+  voiceOn=!voiceOn; e.currentTarget.classList.toggle('on',voiceOn);
+  if(voiceOn){ if(!getArabicVoice()) toast('لم يُعثر على صوت عربي في جهازك؛ قد تكون القراءة غير دقيقة'); ensureStart(); replay() }
+  else { speechSynthesis.cancel(); $('soundWave').classList.remove('on'); scheduleAuto() }
+};
+$('fsBtn').onclick=()=>{ const el=document.querySelector('.stage-wrap'); if(!document.fullscreenElement) el.requestFullscreen&&el.requestFullscreen(); else document.exitFullscreen() };
+document.addEventListener('keydown',e=>{
+  if(['INPUT','TEXTAREA'].includes(e.target.tagName)) return;
+  if(e.key==='ArrowLeft'){ ensureStart(); next() }
+  else if(e.key==='ArrowRight'){ ensureStart(); prev() }
+  else if(e.code==='Space'){ e.preventDefault(); ensureStart(); togglePlay() }
+  else if(e.key==='r'||e.key==='R'||e.key==='ق'){ ensureStart(); replay() }
+});
+if('speechSynthesis' in window) speechSynthesis.onvoiceschanged=()=>{};
+
+/* ---------- Init ---------- */
+buildNav(); updateUI(); typeNarr(SCENES[0].narr); setMood('suspicious');
+</script>
 </body>
 </html>
